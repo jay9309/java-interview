@@ -1,0 +1,1484 @@
+Q1) what is OOP? Why is OOP important in Java?
+
+OOP stands for Object-Oriented Programming.
+
+It is a programming approach in which we organize software around objects that contain data and behavior.
+
+OOP is important in Java because it helps us organize and manage large Java applications by using classes and objects
+
+It provides features like encapsulation, inheritance, polymorphism, and abstraction
+
+which help make code reusable, maintainable, flexible, and easier to manage.
+
+*****************
+OOP
+ ↓
+Program ko real-world objects ki tarah organize karna
+ ↓
+Class + Object
+ ↓
+4 Pillars
+ ├── Encapsulation
+ ├── Inheritance
+ ├── Polymorphism
+ └── Abstraction
+
+
+ -------------------------------------------------------------------------------
+
+ Q2) What is Encapsulation?
+ (Encapsulation = Data ko protect karna + us data ko access karne ka controlled way dena.)
+
+ Encapsulation is the process of wrapping data (variables) and methods that operate on that data into a single class, while restricting direct access to the data.
+
+
+ ***************************"Give me a real-life example."
+
+ A bank account is a good example. The account balance should not be directly accessible or modified. We keep the balance private and provide methods like deposit() and withdraw() to control how the balance is changed.
+
+*****************In Java, encapsulation is mainly achieved by:
+1) Declaring variables as private
+2) Providing public getter and setter methods
+
+ class Student {
+    private String name;
+    private int age;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if (age > 0) {
+            this.age = age;
+        }
+    }
+}
+
+Now you cannot directly access name or age from outside the class:
+
+Student s = new Student();
+
+s.setName("Rahul");
+s.setAge(20);
+
+System.out.println(s.getName());
+System.out.println(s.getAge());
+
+
+-------------------------------------------------------------------
+
+Q3) Why use encapsulation? 
+
+1) Data security — prevents direct modification of data.
+2) Control — you can validate data before changing it.
+3) Data hiding — users interact with the class through controlled methods.
+
+ In encapsulation, control and validation are two important benefits.
+
+
+1. Control (Methods ke through decide kar sakte hain ki data kaise change hoga.)
+Encapsulation gives us control over how data is accessed or modified.
+
+For example, if age is public:
+
+class Student {
+    public int age;
+}
+
+Anyone can do:
+
+Student s = new Student();
+s.age = -50;
+
+There is no control over what value gets assigned.
+
+With encapsulation:
+
+class Student {
+    private int age;
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+Now the outside world cannot directly change age. It must go through setAge().
+
+
+
+2. Validation
+Because we control access through methods, we can validate the data before storing it.
+
+class Student {
+    private int age;
+
+    public void setAge(int age) {
+        if (age >= 1 && age <= 100) {
+            this.age = age;
+        } else {
+            System.out.println("Invalid age");
+        }
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+
+Now:
+
+Student s = new Student();
+
+s.setAge(20);    // Valid
+s.setAge(-10);   // Invalid
+s.setAge(150);   // Invalid
+
+
+
+ encapsulation is not just about "hiding data"; it's also about controlling and protecting the data.
+
+
+ ----------------------------------------------------------------------------
+
+ Q4) what is Getter ?
+
+ ***********Agar balance dekhna hai:
+
+ public double getBalance() {
+    return balance;
+}
+
+****************Call:
+
+System.out.println(account.getBalance());
+
+
+---------------------------------------------------------------------------------
+
+Q5) What is Inheritance? (Ek child class, parent class ke fields aur methods ko reuse kar sakti hai.)
+
+Inheritance is the process of creating a new class based on an existing class.
+
+Why Do We Need Inheritance?
+
+✔ Code Reusability
+✔ Reduces redundancy
+✔ Improves maintainability
+
+Reusability is achieved by Inheritance
+
+Syntax
+class Child extends Parent {
+}
+
+**************************Inheritance ke types
+1. Single Inheritance                     // supported with classes
+2. Multilevel Inheritance                 // supported with classes
+3. Hierarchical Inheritance               // supported with classes
+4. Multiple Inheritance                   ❌ Not supported with classes
+5. Hybrid Inheritance                     ❌ Not directly supported with classes
+
+***************************************************************
+1) Single Inheritance : (Ek parent → ek child.)
+
+Animal
+   ↓
+ Dog
+
+ *************Example :
+
+ class Animal {
+
+    void eat() {
+        System.out.println("Eating");
+    }
+}
+
+class Dog extends Animal {
+
+    void bark() {
+        System.out.println("Barking");
+    }
+}
+
+*******************************************************************
+2) Multilevel Inheritance : (Chain jaisi inheritance:)
+
+Animal
+   ↓
+Dog
+   ↓
+Puppy
+
+*******************Example:
+class Animal {
+
+    void eat() {
+        System.out.println("Eating");
+    }
+}
+
+class Dog extends Animal {
+
+    void bark() {
+        System.out.println("Barking");
+    }
+}
+
+class Puppy extends Dog {
+
+    void play() {
+        System.out.println("Playing");
+    }
+}
+    
+******************************************************************
+
+3) Hierarchical Inheritance (Ek parent → multiple children.)
+
+          Employee
+          /      \
+         /        \
+ Developer       Tester
+
+ *****************Example:
+
+ class Employee {
+
+    void login() {
+        System.out.println("Employee login");
+    }
+}
+
+class Developer extends Employee {
+
+    void writeCode() {
+        System.out.println("Writing code");
+    }
+}
+
+class Tester extends Employee {
+
+    void testSoftware() {
+        System.out.println("Testing software");
+    }
+}
+
+*******************************************************************************
+
+4) Multiple Inheritance : (A class cannot extend more than one class.)
+
+Java does not support multiple inheritance through classes, even if the parent classes have different method names. However, Java supports multiple inheritance of type through interfaces.
+
+       A       B
+        \     /
+         \   /
+           C
+
+Java me: 
+
+class C extends A, B {   // ❌ Not allowed
+}
+
+****************************Kyu?
+
+Ambiguity problem ho sakti hai.
+
+-------------------------------------------------------------------------------
+
+
+Q6) how multiple inheritance is achieved in java ?  (Interfaces ke through.)
+
+(Ye real-world modeling me useful hai jab ek class ko multiple capabilities provide karni hoti hain.)
+*********************************interview Answer :
+
+Multiple inheritance is a type of inheritance where one child class inherits from more than one parent class. Java does not support multiple inheritance through classes, because it can lead to ambiguity and makes the class hierarchy more complex. However, Java allows a class to implement multiple interfaces
+
+**********************Example : 
+Smartphone
+   │
+   ├── Camera behavior
+   └── GPS behavior
+
+**************************************   
+
+interface Camera {
+
+    void takePhoto();
+}
+
+interface GPS {
+
+    void navigate();
+}
+
+class Smartphone implements Camera, GPS {
+
+    public void takePhoto() {
+        System.out.println("Taking photo");
+    }
+
+    public void navigate() {
+        System.out.println("Navigating");
+    }
+}
+
+
+*******************************
+Smartphone s = new Smartphone();
+
+s.takePhoto();
+s.navigate();
+
+---------------------------------------------------------Output:
+
+Taking photo
+Navigating
+
+
+(Real production design me interfaces ka use sirf “multiple inheritance achieve karne” ke liye nahi hota. Interfaces abstraction, loose coupling, testability aur interchangeable implementations ke liye bhi widely used hain.)
+
+
+-------------------------------------------------------------------------------
+
+Q7) Hybrid Inheritance : (Hybrid = multiple inheritance patterns ka combination.)
+
+
+Hybrid inheritance is a combination of two or more types of inheritance, such as hierarchical and multiple inheritance. Java does not support hybrid inheritance directly through classes because it does not support multiple inheritance of classes. However, interfaces can be used to model multiple capabilities and complex type relationships.
+
+       A
+      / \
+     B   C
+      \ /
+       D
+*******************
+class A {}
+
+class B extends A {}
+
+class C extends A {}
+
+// ❌ Java does not allow:
+// class D extends B, C
+
+*************************************Example :
+
+interface Camera {
+
+    void takePhoto();                    // ❌ yaha implementation nahi
+}
+
+interface GPS {
+
+    void navigate();
+}
+
+class Smartphone implements Camera, GPS {
+
+    public void takePhoto() {                               // ✅ actual implementation
+        System.out.println("Taking photo");
+    }
+
+    public void navigate() {
+        System.out.println("Navigating using GPS");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Smartphone phone = new Smartphone();
+
+        phone.takePhoto();
+        phone.navigate();
+    }
+}
+
+*************************************Output:
+
+Taking photo
+Navigating using GPS
+
+
+(An interface defines a contract. It declares what a class must do, while the implementing class provides the actual implementation. A class can implement multiple interfaces, which allows Java to achieve multiple inheritance of type.)
+
+
+------------------------------------------------------------------------------------
+
+
+Q*) .What is upcasting/downcasting? output ke sath
+
+
+Upcasting
+Upcasting = Child object ko Parent class ke reference se refer karna.
+
+***************
+
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Animal a = new Dog();   // Upcasting                //Animal → reference type (Parent)
+                                                          //Dog → actual object (Child)
+        a.sound();                     //Child object is stored/referenced by Parent reference.
+    }                                     //Upcasting is generally automatic.
+}
+
+*****************Output
+Animal makes sound
+
+
+
+*********************************2. Downcasting
+Downcasting = Parent reference ko Child class ke reference mein convert karna.
+
+
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Animal a = new Dog();       // Upcasting
+
+        Dog d = (Dog) a;            // Downcasting
+
+        d.sound();
+        d.bark();
+    }
+}
+
+***************Output
+Animal makes sound
+Dog barks
+
+
+
+
+**************************************Interview answer
+
+Upcasting is converting a child-class reference into a parent-class reference. It is implicit and provides access to the parent-class members. 
+
+Downcasting is converting a parent-class reference back into a child-class reference. It requires explicit casting and should be done carefully because an invalid downcast causes ClassCastException.
+
+
+
+----------------------------------------------------------------------------------
+
+
+*********************["Inputs different hain?" → Overloading
+*********************"Child ka behavior different hai?" → Overriding]
+
+Q8) "Is overloading possible without inheritance?"
+
+Yes. Method overloading does not require inheritance. It can be done within the same class by defining methods with the same name but different parameter lists.
+
+********************************
+
+Q ) Can we overload by changing only return type?
+
+Wrong:
+
+int add(int a, int b) {              ❌ Not valid overloading because parameter lists are the same.
+    return a + b;
+}
+
+double add(int a, int b) {                 ❌ This is not valid overloading.
+    return a + b;
+}                                       // Because both method has (int int) 
+
+********************************
+
+
+Q9) what is Method Overloading ?
+
+Method overloading means having multiple methods with the same name but different parameter lists in the same class.
+
+*****************Simple trick:
+
+Same name + different inputs = Overloading
+
+*********************Example
+
+class Calculator {
+
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+*************************main
+public class Main {
+
+    public static void main(String[] args) {
+
+        Calculator c = new Calculator();
+
+        System.out.println(c.add(10, 20));
+
+        System.out.println(c.add(10, 20, 30));
+
+        System.out.println(c.add(10.5, 20.5));
+    }
+}
+
+*************************Output:
+
+30
+60
+31.0
+
+------------------------------------------------------------------------------------
+
+Q10) "Is overriding possible without inheritance?"
+
+No. Method overriding requires a parent-child relationship, because the child class provides a new implementation of a method inherited from the parent class.
+
+OVERLOADING
+     ↓
+Same class bhi ho sakti hai
+     ↓
+Same method name
+     ↓
+Different parameters
+     ↓
+Inheritance NOT required
+
+
+OVERRIDING
+     ↓
+Parent + Child
+     ↓
+Same method name
+     ↓
+Same parameters
+     ↓
+Different implementation
+     ↓
+Inheritance REQUIRED
+
+
+----------------------------------------------------------------------
+
+Q11) What is method overriding ?
+
+Method overriding occurs when a child class provides its own implementation of a method that is already defined in the parent class.
+
+overriding called runtime polymorphism
+
+*******************"Why is overriding called runtime polymorphism?"
+
+Because when an overridden method is called through a parent reference, the implementation that executes is determined at runtime based on the actual object.
+
+*************************Simple trick:
+
+Same method + parent-child + child gives new implementation = Overriding
+
+
+************************Basic example :
+    
+class Animal {
+
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+******************************* Main :
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Dog d = new Dog();
+
+        d.sound();
+    }
+}
+
+*******************************Output:
+Dog barks
+
+
+--------------------------------------------------------------------
+
+Q12)  Overloading vs Overriding
+
+| Point        | Overloading                         | Overriding                        |
+| ------------ | ----------------------------------- | --------------------------------- |
+| Meaning      | Same name, different parameters     | Child provides new implementation |
+| Classes      | Usually same class                  | Parent + Child                    |
+| Parameters   | Must be different                   | Same method signature             |
+| Inheritance  | Not required                        | Required                          |
+| Purpose      | Different inputs                    | Different behavior                |
+| Polymorphism | Compile-time                        | Runtime                           |
+| Example      | `add(int,int)` / `add(int,int,int)` | `Animal.sound()` / `Dog.sound()`  |
+
+
+***********Scenario 1
+
+1) "You have a calculator and want add() to work with 2 or 3 numbers. What will you use?"
+
+Method overloading, because the operation is the same but the number of inputs is different.
+
+****************************************************************************
+
+2) "You have a Payment parent class and UPI and Card subclasses. Each payment type needs its own pay() implementation. What will you use?"
+
+Method overriding, because the child classes need different implementations of the same method defined in the parent class.
+
+*****************************************************************************
+3) "Does overloading require inheritance?"
+
+No. Method overloading does not require inheritance. It can be performed within the same class.
+
+******************************************************************************
+
+4) "Does overriding require inheritance?"
+
+Yes. Method overriding requires a parent-child relationship, because the child class overrides a method inherited from the parent.
+
+******************************************************************************
+
+5) "Can we overload by changing only return type?"
+
+No. Changing only the return type is not enough for method overloading. The parameter list must be different.
+
+**********************************************************************************
+
+6) "Why is overriding called runtime polymorphism?"
+
+Because when an overridden method is called through a parent reference, the implementation that executes is determined at runtime based on the actual object.
+
+
+
+
+---------------------------------------------------------------------------------------
+
+Q13) What is polymorphism ?  
+
+polymorphism means one thing having multiple forms. In Java, it allows the same method or interface to behave differently depending on the situation or object. Java mainly supports compile-time polymorphism through method overloading and runtime polymorphism through method overriding.
+
+//Poly = Many
+//Morphism = Forms
+
+Polymorphism means one thing having many forms.
+
+***********Real-life example :
+
+Person                     //Person same hai, lekin role change hone par behavior change hota hai.
+  ├── Student → studies
+  ├── Employee → works
+  └── Customer → purchases
+
+********************************2 main types :
+
+                Polymorphism
+                     |
+          ┌──────────┴──────────┐
+          ↓                     ↓
+   Compile-time            Runtime
+   Polymorphism            Polymorphism
+          ↓                     ↓
+   Method Overloading      Method Overriding
+
+***************************************************************************
+
+1) Compile-time Polymorphism    (generally Method Overloading se achieve karte hain.)
+
+Binding of method call decides at the time of compilation called as CompileTime Polymorphism
+
+1) can we overload static method ?
+Yes
+
+2) can we overload main method ?
+Yes,
+
+
+
+
+COMPILE-TIME
+     ↓
+Compiler decides
+     ↓
+Overloading
+     ↓
+"Which method based on parameters?"
+
+*******************************************************************************
+
+2) Runtime Polymorphism = Dynamic Binding = Late Binding
+
+Binding of method call is decides at runtime called as Runtime Polymorphism
+
+
+
+1) "At least single inheritance" ka meaning
+
+2) Same method name with same parameters
+
+RUNTIME
+     ↓
+Actual object decides behavior
+     ↓
+Overriding
+     ↓
+"Which implementation of the method?"
+
+********************************
+
+class Animal {
+
+    void sound() {
+        System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+-----------------------------------------------------------
+
+Q14) "What are the requirements for runtime polymorphism?"
+
+Runtime polymorphism is achieved through method overriding. It requires a parent-child relationship through inheritance, and the child class must provide a method with the same name and parameter list as the parent method. When a parent reference refers to a child object, the overridden method is selected at runtime based on the actual object.
+
+
+Inheritance + Method Overriding + Parent reference with Child object = Runtime Polymorphism.
+
+
+
+---------------------------------------------------------------------------------
+
+Q15) What is an Abstraction ? (User ko sirf “kya karna hai” dikhana, aur “andar kaise ho raha hai” hide karna = Abstraction.)
+
+An abstraction means simply hiding implementation
+
+Showing necessary or essential things from an object
+
+We can achieve abstraction by using abstract or interface
+
+
+*************Ex ATM
+
++ When method is logically incomplete method to be declared to be abstract 
+
++ If class has abstract method  them compulsory class must be abstract 
+
++ abstract  class can have non-abstract method as well we can write static method.
+
++ abstract  class can have all methods abstract so we can say abstract  class can give 100 % abstraction
+
++ In abstract class not compulsion there must be an abstract method.
+
+
+*************************// why we Create Abstract class
+
+// Because by through this type we can manipulate set of subclasses
+
+// we make some compulsion for all subclasses
+
+// java gives purity you can't create object of such class
+
+
+**************************************************Real-life example
+
+Tum ATM use karte ho.
+
+Tumhe screen par options milte hain:
+
+1) Withdraw Money
+2) Deposit Money
+3) Check Balance
+
+
+************************************************Lekin andar:
+
+Card verification
+       ↓
+PIN verification
+       ↓
+Bank server
+       ↓                              //Ye pura internal process tumhe nahi dikhaya jata.
+Account check
+       ↓
+Balance verification
+       ↓
+Transaction processing
+       ↓
+Cash dispenser
+
+*****************************************Java me abstraction kaise achieve karte hain?
+
+Abstraction
+    |
+    ├── Abstract Class
+    |
+    └── Interface
+
+*****************************************************************
+
+An abstract method is a method declared without a body, and the child class must provide its implementation.
+
+********************Syntax:
+
+abstract returnType methodName();
+
+********************Example:
+
+abstract void start();  // ✅
+
+************************Lekin:
+
+abstract void start() {  // ❌
+}
+
+**********************Example  :
+
+"Har vehicle ko start hona chahiye, lekin vehicle kaise start hoga, ye main decide nahi karunga. Child class decide karegi."
+
+********************************************************************************
+
+Q16) Abstract class ka object bana sakte hain?
+
+❌ No.
+
+Vehicle v = new Vehicle();     //Because Vehicle abstract class hai.
+
+Vehicle v = new Car();          ✅ valid hai.
+
+*********************************************************************
+
+Q17) Abstract class me normal method bhi ho sakta hai
+
+abstract class Vehicle {
+
+    abstract void start();          // abstract method
+
+    void stop() {                                      // concrete/normal method
+        System.out.println("Vehicle stopped");
+    }
+}
+
+-------------------------------------------------------------------------------------
+
+Q18) Why do we use abstraction?
+
+We use abstraction to hide unnecessary implementation details, define common behavior, reduce complexity, and allow different classes to provide their own implementations.
+
+
+
+------------------------------------------------------------------------------------
+
+Q19) 🧠 Abstraction vs Polymorphism — abhi se connection samjho
+
+Abstraction:
+"What should be done?"
+        ↓
+pay()
+start()
+send()
+
+Polymorphism:
+"How will it behave for this object?"
+        ↓
+UPI → UPI payment
+Card → Card payment
+Car → Car start
+Bike → Bike start
+
+-----------------------------------------------------------------------------------
+
+Q20) "Agar abstract class ka object nahi bana sakte, to constructor kyu?"
+
+Because abstract class ka constructor child object create hone par indirectly execute hota hai.
+
+----------------------------------------------------------------------------------------
+
+Q1. What is an abstract class?
+
+An abstract class is a class declared with the abstract keyword. It can contain abstract methods as well as concrete methods, fields, and constructors. We cannot create its object directly.
+
+***********************************************
+
+Q2. Can we create an object of an abstract class?
+
+No, we cannot directly instantiate an abstract class. However, we can create a reference of the abstract class that refers to a child-class object.
+
+Example:
+
+Payment p = new UPI(500);
+
+*********************************************
+
+Q3. Can an abstract class have a constructor?
+
+Yes. An abstract class can have a constructor. Its constructor is executed when a child-class object is created.
+
+*****************************************************
+
+Q4. Can an abstract class have normal methods?
+
+Yes. An abstract class can contain both abstract methods and concrete methods.
+
+***************************************************************
+
+Q5. Can an abstract class have fields?
+
+Yes. An abstract class can have instance fields, static fields, final fields, and other members like a normal class.
+
+*******************************************************************
+
+Q6. Is implementing an abstract method compulsory?
+
+Yes, a concrete child class must implement all inherited abstract methods. If it does not, the child class must also be declared abstract.
+
+*****************************************************************
+
+Q7. Why can't we create an object of an abstract class?
+
+Because an abstract class may contain abstract methods without implementation. It represents an incomplete/general concept and is intended to be extended by concrete classes.
+
+******************************************************************
+
+Q8. Can an abstract class have zero abstract methods?
+
+Yes.
+
+Example:
+
+abstract class Vehicle {
+
+    void stop() {
+        System.out.println("Stop");
+    }
+}
+
+Ye valid hai.
+
+***************************************************************
+
+Q9) abstract class me static hota he kya ? aur hum directly access kr skte he kya ?
+
+Yes, an abstract class can have static fields and static methods. Static members belong to the class, so they can be accessed directly using the abstract class name without creating an object.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+Q17) interface 
+
+Interface is a Java feature/mechanism used mainly to achieve abstraction and support polymorphism.
+
+(Interface ek contract/rulebook hai jo batata hai ki class ko kya-kya functionality provide karni hai. Actual implementation class deti hai.)
+
+Interface common rule define kar sakta hai:
+
+*****************************************************
+
+1) public kyu likhna padta hai?
+Interface ka method by default: public + abstract hota hai 
+
+************************************Example 
+
+interface Payment {
+
+    public abstract void pay();
+}
+
+class UPI implements Payment {
+
+    public void pay() {
+        System.out.println("UPI");
+    }
+
+
+    // void pay() {
+    //}                           ❌ Ye nahi:
+}
+
+*************************************Matlab interface ke fields by default:
+
+public       
+static           //Payment.MAX_LIMIT              //se access kar sakte ho.
+final         //    Payment.MAX_LIMIT = 200000; //❌ allowed nahi hai.
+
+*************************************************************
+
+Q21) Interface me constructor hota hai?
+
+❌ No.
+*************************
+
+interface Payment {
+
+    Payment() {    // ❌
+    }
+}
+
+Q22) Interface ka object bana sakte hain?
+
+❌ Directly nahi.               //Payment p = new Payment();
+
+Payment p = new UPI();       //But interface reference bana sakte ho:       ✅ 
+
+---------------------------------------------------------------------------
+
+// ============================================================
+// JAVA INTERFACE — IMPORTANT RULES WITH EXAMPLES
+// ============================================================
+
+
+// 1. interface keyword se interface banta hai.
+//
+// Example:
+
+interface Payment {
+
+    void pay();
+}
+
+
+// ------------------------------------------------------------
+
+
+// 2. Class interface ko implements karti hai.
+//
+// Example:
+//
+// UPI class Payment interface ko implement kar rahi hai.
+
+class UPI implements Payment {
+
+    public void pay() {
+        System.out.println("Payment through UPI");
+    }
+}
+
+
+// ------------------------------------------------------------
+
+
+// 3. Class multiple interfaces implement kar sakti hai.
+//
+// Example:
+//
+// Smartphone ek saath Camera aur GPS dono interfaces
+// ko implement kar raha hai.
+
+interface Camera {
+
+    void takePhoto();
+}
+
+interface GPS {
+
+    void navigate();
+}
+
+class Smartphone implements Camera, GPS {
+
+    public void takePhoto() {
+        System.out.println("Taking photo");
+    }
+
+    public void navigate() {
+        System.out.println("Navigating using GPS");
+    }
+}
+
+
+// ------------------------------------------------------------
+
+
+// 4. Interface ka direct object nahi bana sakte.
+//
+// ❌ Not allowed:
+//
+// Payment p = new Payment();
+//
+// Kyunki interface ka direct object create nahi kar sakte.
+//
+// Lekin interface reference bana sakte hain:
+
+Payment p = new UPI();     // ✅
+
+
+// ------------------------------------------------------------
+
+
+// 5. Interface ka constructor nahi hota.
+//
+// ❌ Not allowed:
+//
+// interface Payment {
+//
+//     Payment() {
+//     }
+// }
+//
+// Constructor object ko initialize karne ke liye hota hai,
+// aur interface ka direct object create nahi hota.
+
+
+// ------------------------------------------------------------
+
+
+// 6. Abstract methods by default public abstract hote hain.
+//
+// Ye:
+
+interface Bank {
+
+    void withdraw();
+}
+
+
+// Conceptually same hai:
+
+interface Bank2 {
+
+    public abstract void withdraw();
+}
+
+
+// Isliye implementing class me method public hona chahiye:
+
+class SBI implements Bank {
+
+    public void withdraw() {
+        System.out.println("Withdraw money");
+    }
+}
+
+
+// ------------------------------------------------------------
+
+
+// 7. Fields by default public static final hote hain.
+//
+// Ye:
+
+interface College {
+
+    int FEES = 50000;
+}
+
+
+// Conceptually same hai:
+
+interface College2 {
+
+    public static final int FEES = 50000;
+}
+
+
+// Isliye directly interface name se access kar sakte hain:
+
+System.out.println(College.FEES);
+
+// ❌ Value change nahi kar sakte:
+//
+// College.FEES = 60000;
+//
+// Kyunki FEES final hai.
+
+
+// ------------------------------------------------------------
+
+
+// 8. Abstract methods ko concrete implementing class
+//    ko implement karna hota hai.
+//
+// Example:
+
+interface Vehicle {
+
+    void start();
+}
+
+class Car implements Vehicle {
+
+    // start() implement karna compulsory hai
+    public void start() {
+        System.out.println("Car starts");
+    }
+}
+
+
+// Agar implement nahi kiya:
+//
+// class Bike implements Vehicle {
+//
+// }
+//
+// ❌ Compile-time error.
+//
+// Lekin Bike ko abstract bana sakte hain:
+//
+// abstract class Bike implements Vehicle {
+//
+// }
+
+
+// ------------------------------------------------------------
+
+
+// 9. Interface default, static aur modern Java me
+//    private methods bhi rakh sakta hai.
+
+interface Payment2 {
+
+    // Abstract method
+    void pay();
+
+
+    // Default method → body hoti hai
+    default void receipt() {
+        System.out.println("Receipt generated");
+    }
+
+
+    // Static method
+    static void info() {
+        System.out.println("Payment system");
+    }
+
+
+    // Private method
+    private void validate() {
+        System.out.println("Validation");
+    }
+}
+
+
+// Static method ko interface name se call karte hain:
+//
+// Payment2.info();
+
+
+// ------------------------------------------------------------
+
+
+// 10. Interface another interface ko extends kar sakta hai.
+//
+// Example:
+
+interface Payment3 {
+
+    void pay();
+}
+
+interface OnlinePayment extends Payment3 {
+
+    void refund();
+}
+
+
+// OnlinePayment ko Payment ka pay() method bhi milega.
+//
+// Structure:
+//
+// Payment
+//    ↑
+// OnlinePayment
+
+
+// ------------------------------------------------------------
+
+
+// 11. Multiple interfaces ko extend karna allowed hai.
+//
+// Example:
+
+interface Camera2 {
+
+    void takePhoto();
+}
+
+interface GPS2 {
+
+    void navigate();
+}
+
+
+// SmartFeatures ek saath Camera2 aur GPS2 ko extend kar raha hai.
+
+interface SmartFeatures extends Camera2, GPS2 {
+
+}
+
+
+// Structure:
+//
+// Camera2       GPS2
+//     \          /
+//      \        /
+//     SmartFeatures
+
+
+// ------------------------------------------------------------
+
+
+// 12. Class interface ko extends nahi, implements karti hai.
+//
+// ❌ Wrong:
+//
+// class Car extends VehicleInterface {
+// }
+//
+// Agar VehicleInterface ek interface hai.
+//
+// ✅ Correct:
+
+interface VehicleInterface {
+
+    void start();
+}
+
+class Car2 implements VehicleInterface {
+
+    public void start() {
+        System.out.println("Car starts");
+    }
+}
+
+
+// Yaad rakho:
+//
+// Class → extends → Class
+// Class → implements → Interface
+// Interface → extends → Interface
+
+
+// ------------------------------------------------------------
+
+
+// 13. Interface ka main use:
+//
+// ✔ Abstraction
+// ✔ Common Contract
+// ✔ Loose Coupling
+// ✔ Multiple Inheritance of Type
+//
+// Real-world example:
+//
+// Payment interface common contract define karta hai.
+
+interface PaymentService {
+
+    void pay();
+}
+
+
+// Different classes apna-apna implementation deti hain.
+
+class UPIService implements PaymentService {
+
+    public void pay() {
+        System.out.println("Payment using UPI");
+    }
+}
+
+class CardService implements PaymentService {
+
+    public void pay() {
+        System.out.println("Payment using Card");
+    }
+}
+
+
+// Same contract:
+//
+// PaymentService
+//       |
+//       ├── UPIService
+//       |
+//       └── CardService
+//
+// Dono classes ko pay() implement karna compulsory hai,
+// lekin pay() ka implementation different ho sakta hai.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

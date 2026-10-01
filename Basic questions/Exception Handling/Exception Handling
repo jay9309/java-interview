@@ -1,0 +1,478 @@
+1. What is an Exception?
+
+An exception is an unwanted event that occurs during program execution and interrupts the normal flow of the program.
+
+*********************Example:
+public class Main {
+    public static void main(String[] args) {
+
+        int a = 10;
+        int b = 0;
+
+        System.out.println(a / b);
+
+        System.out.println("Hello");
+    }
+}
+
+*********************Output:
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+
+//Hello print nahi hua because exception interrupted the normal flow.
+
+****************Interview answer
+An exception is an unwanted event that occurs during runtime and disrupts the normal flow of program execution. Java provides exception handling mechanisms like try, catch, finally, throw and throws to handle such situations.
+
+********************Q: Why do we need exception handling?
+To prevent abnormal termination of the program and handle runtime problems gracefully.
+
+-------------------------------------------------------------------------------
+
+Q2)  Error vs Exception
+Both come under:
+
+Throwable
+   ├── Error
+   └── Exception
+
+*********************Error
+
+1) An Error represents serious problems that generally cannot be handled by the application.
+
+2) Error generally represents serious JVM or system-level problems
+
+****************Examples:
+OutOfMemoryError
+StackOverflowError
+
+Q:1)  Can we catch an Error?
+Technically yes:
+try {
+    // code
+}
+catch (Error e) {
+    System.out.println("Error");
+}
+
+*********************Exception
+
+An Exception represents conditions that an application can potentially handle.
+
+****************Examples:
+ArithmeticException
+NullPointerException
+IOException
+SQLException
+
+
+
+
+
+------------------------------------------------------------
+
+Exception Hierarchy ⭐
+
+                 Object
+                    |
+                Throwable
+                /       \
+             Error     Exception
+                         |
+             ┌───────────┴────────────┐
+             |                        |
+     RuntimeException          Other Exceptions (Checked exception)
+             | (unchecked)            |
+     NullPointerException          IOException
+     ArithmeticException           SQLException
+ArrayIndexOutOfBoundsException      FileNotFoundException
+  NumberFormatException             ClassNotFoundException
+
+
+-------------------------------------------------------------------------------
+
+Q3) Checked Exception
+Checked exceptions are checked by the compiler at compile time.
+
+
+**********************************Example:
+import java.io.FileReader;
+
+public class Main {
+    public static void main(String[] args) {
+
+        FileReader f = new FileReader("abc.txt");        //Compiler complains because FileReader 
+                                                         //  can throw FileNotFoundException.
+    }
+}
+
+************************************You need to handle it:
+try {
+    FileReader f = new FileReader("abc.txt");
+}
+catch (Exception e) {
+    System.out.println("File not found");
+}
+
+*********************Interview answer
+Checked exceptions are checked by the compiler at compile time. We must either handle them using try-catch or declare them using throws.
+
+******************************Q: Why are they called checked?
+Because the compiler checks whether they are handled or declared.
+
+
+*************Examples
+IOException
+SQLException
+FileNotFoundException
+ClassNotFoundException
+
+----------------------------------------------------------------------------------
+
+Q3) Unchecked Exception
+
+Unchecked exceptions are not checked by the compiler.
+They generally occur during runtime.
+
+*********************Example:
+int a = 10 / 0;
+
+*********************Output:
+ArithmeticException
+
+************Q: Is RuntimeException checked or unchecked?
+RuntimeException is an unchecked exception.
+
+
+---------------------------------------------------------------------------------
+
+Q4) try block
+
+********************try contains code that may generate an exception.
+
+try {
+    int result = 10 / 0;
+}
+
+But try normally needs catch or finally
+
+-------------------------------------------------------------------------------------
+
+Q5) catch block
+
+**********************catch handles the exception.
+
+try {
+    int result = 10 / 0;
+}
+catch (ArithmeticException e) {
+    System.out.println("Cannot divide by zero");
+}
+
+**************************Output:
+Cannot divide by zero
+
+************************************Interview answer
+The catch block is used to handle an exception thrown from the corresponding try block.
+
+----------------------------------------------------------------------------------------
+
+Q6) finally ⭐⭐⭐⭐⭐
+
+*************************finally is used for cleanup code.
+Example:
+try {
+    System.out.println("Try");
+}
+catch (Exception e) {
+    System.out.println("Catch");
+}
+finally {
+    System.out.println("Finally");
+
+***********************Output:
+Try
+Finally
+
+*******************Common use:
+Close file
+Close database connection
+Release resources
+
+***********Interview answer
+The finally block is generally used to execute cleanup code. It normally executes whether an exception occurs or not.
+
+------------------------------------------------------------------------------
+
+Q7) Can finally execute without catch?          //try + finally  = is valid.
+YES.
+*****************
+
+try {
+    System.out.println("Hello");
+}
+finally {
+    System.out.println("Finally");
+}
+
+*********************Output:
+Hello
+Finally
+
+----------------------------------------------------------------------------------
+
+Q8) Can we have try without catch?
+
+YES, if finally is present.
+**********************
+
+try {
+    System.out.println("Hello");
+}
+finally {
+    System.out.println("Finally");
+}
+
+*************************But this is invalid:
+try {                                       //A try block must have at least: catch OR finally
+    System.out.println("Hello");               ❌ Compile-time error.
+}
+
+----------------------------------------------------------------------------------
+
+Q9) Can finally be skipped?      //Usually finally executes.
+
+*******************For example:
+try {
+    System.out.println("Hello");
+
+    System.exit(0);                //But there are situations where it may not execute.
+}
+finally {
+    System.out.println("Finally");
+}
+
+*****************Output:
+Hello
+
+***************Interview answer
+Normally finally executes, but it can be skipped if the JVM terminates, for example through System.exit(), or in certain abnormal JVM termination situations.
+
+
+---------------------------------------------------------------------------------------
+
+Q10) Multiple Catch ⭐⭐⭐⭐                //We can have multiple catch blocks.
+
+try {
+    int a = 10 / 0;
+}
+catch (ArithmeticException e) {
+    System.out.println("Arithmetic problem");
+}
+catch (NullPointerException e) {
+    System.out.println("Null problem");
+}
+catch (Exception e) {
+    System.out.println("Other exception");
+}
+
+*********************Output:
+Arithmetic problem
+
+-----------------------------------------------------------------------------------------
+
+Q11) Multi-catch                           //Java also allows:
+
+try {
+    // code
+}
+catch (ArithmeticException | NullPointerException e) {  
+    System.out.println("Exception occurred");   //Here one catch handles multiple exception types.
+}
+
+--------------------------------------------------------------------------------------
+
+Q12) Nested try
+A try block inside another try block.
+
+***********************Why use it?
+When different sections of code require different exception handling.
+
+try {
+
+    System.out.println("Outer try");
+
+    try {
+        int x = 10 / 0;
+    }
+    catch (ArithmeticException e) {
+        System.out.println("Inner catch");
+    }
+
+}
+catch (Exception e) {
+    System.out.println("Outer catch");
+}
+
+*******************Output:
+Outer try
+Inner catch
+
+---------------------------------------------------------------------------------------
+
+Q13) Throw ⭐⭐⭐⭐⭐        //throw is used to explicitly throw an exception.
+
+
+//Remember:
+
+throw new Exception();
+
+Example:
+public class Main {
+
+    static void checkAge(int age) {
+
+        if (age < 18) {
+            throw new IllegalArgumentException("Age must be 18 or above");
+        }
+
+        System.out.println("Eligible");
+    }
+
+    public static void main(String[] args) {
+        checkAge(15);
+    }
+}
+
+*********************Output:
+
+Exception in thread "main" java.lang.IllegalArgumentException:
+Age must be 18 or above
+
+-------------------------------------------------------------------------------------
+
+Q14) throws ⭐⭐⭐⭐⭐
+
+**************************throws is used in the method declaration.
+
+Example:
+static void readFile() throws IOException {
+    FileReader f = new FileReader("abc.txt");
+}
+
+******************************Interview answer
+throws is used in a method declaration to declare that the method may throw one or more exceptions.
+
+--------------------------------------------------------------------------------------
+
+Q15) Exception Propagation ⭐⭐⭐⭐
+
+***************** Suppose:
+main()
+   ↓
+method1()
+   ↓
+method2()
+   ↓
+method3()
+
+***************************If exception occurs in method3() and is not handled there, it moves upward:
+
+method3
+   ↓
+method2
+   ↓
+method1
+   ↓
+main
+
+****************Example:
+
+public class Main {
+
+    static void method3() {
+        int x = 10 / 0;
+    }
+
+    static void method2() {
+        method3();
+    }
+
+    static void method1() {
+        method2();
+    }
+
+    public static void main(String[] args) {
+
+        try {
+            method1();
+        }
+        catch (ArithmeticException e) {
+            System.out.println("Exception handled");
+        }
+    }
+}
+
+***************Output:
+Exception handled
+
+***********************Interview answer
+Exception propagation is the process in which an unhandled exception moves from the current method to its caller and continues up the call stack until it is handled.
+
+----------------------------------------------------------------------------------------
+
+🔥 Most Important Logical Interview Questions
+
+Q1. What happens if exception occurs inside try?
+
+try
+ ↓
+Exception occurs
+ ↓
+Remaining try code skipped
+ ↓
+Matching catch executes
+ ↓
+finally executes
+ ↓
+Program continues
+
+--------------------------------------------------------------------------------------------
+
+Q2) What happens if there is no matching catch?
+
+So exception remains unhandled and propagates to the caller.
+
+---------------------------------------------------------------------------------------------
+
+Q3) What happens if exception occurs in catch?
+
+finally will normally execute even though another exception occurs inside catch.
+
+************Example:
+try {
+    int x = 10 / 0;
+}
+catch (ArithmeticException e) {
+
+    int y = 10 / 0;
+}
+finally {
+    System.out.println("Finally");
+}
+
+-------------------------------------------------------------------------------------------
+
+Q5.) Can we write multiple finally blocks?   
+
+❌ No.
+
+//One try can have only one finally block.
+********************
+try {
+}
+finally {
+}
+finally {
+}
+
+---------------------------------------------------------------------------------

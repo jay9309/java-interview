@@ -1,0 +1,638 @@
+Q1) What is Java?
+
+Java is a high-level, object-oriented and platform-independent programming language developed by Sun Microsystems.
+
+Java follows the principle of "Write Once, Run Anywhere" because Java source code is compiled into bytecode, and this bytecode runs on the Java Virtual Machine, or JVM.
+
+Java is widely used for backend development, enterprise applications, Android-related development, and many other software applications. 
+
+***********Example:
+Suppose tumne Java program Windows laptop par banaya
+
+Java Code
+   ↓
+Compiler
+   ↓
+Bytecode
+   ↓
+JVM
+   ↓
+Windows / Linux / Mac
+
+-----------------------------------------------------------------------------------------------
+
+Q2) Why is Java platform independent?
+
+Java is platform independent because Java source code is compiled into bytecode instead of directly into machine-specific code.
+
+This bytecode can run on any operating system that has a compatible JVM.
+
+For example, the same Java bytecode can run on Windows, Linux, or macOS with their respective JVMs.
+
+Simple example:
+
+Same Java bytecode
+       ↓
+ -------------------------
+ ↓          ↓           ↓
+Windows    Linux       Mac
+ JVM        JVM         JVM
+
+ --------------------------------------------------------------------------------------
+
+ Q3) What is JVM?
+
+JVM stands for Java Virtual Machine.
+
+It is responsible for executing Java bytecode.
+
+The JVM converts bytecode into machine-level instructions that the operating system can understand.
+
+For example, when we run a Java program, the JVM loads the bytecode, checks it, and executes it.
+
+
+**********Real life Example :
+JVM ko translator samjho.
+
+Tum English mein bolte ho → saamne wala Marathi samajhta hai.
+
+Translator tumhari English ko Marathi mein convert karta hai.
+
+Similarly:
+
+Bytecode → JVM → Machine instructions
+
+---------------------------------------------------------------------------------
+
+Q4) What are the main components of JVM?
+ 
+ JVM
+│
+├── Class Loader          //Class Loader ka kaam .class files ko JVM ke memory me load karna hai.
+|                    //Class Loader is responsible for loading Java class files into JVM memory 
+|                        when they are required.
+├── Memory Areas
+├── Execution Engine     //Execution Engine bytecode ko execute karta hai.
+├── Interpreter          //Interpreter bytecode ko instruction by instruction execute karta hai.
+│   ├── JIT Compiler     //Agar JVM notice karti hai ki koi code repeatedly execute ho raha hai,
+|   |                      JIT us code ko optimize karke machine code me compile kar sakta hai. 
+|   |                        
+|   |                       for(int i = 0; i < 1000000; i++) {
+|   |                         // repeated code
+|   |                           }
+│   └── Garbage Collector //Garbage Collector automatically identifies unreachable objects and 
+|                               reclaims their memory.
+|
+└── JNI / Native Libraries
+
+
+
+JVM Memory
+│
+├── Heap
+├── Stack
+├── Method Area
+├── PC Register
+└── Native Method Stack
+
+
+2) Memory Areas
+JVM program ko execute karte time different memory areas use karti hai.
+JVM Memory
+│
+├── Heap        //Objects generally heap me store hote hain.  // Student s = new Student();
+|
+├── Stack       //Method execution ke liye stack use hota hai. 
+|                        //public static void main(String[] args) {
+|                                            int x = 10;
+|                                       }
+|
+├── Method Area
+|
+├── PC Register
+|
+└── Native Method Stack
+------------------------------------------------------------------------------------------
+
+Q4) JDK vs JRE vs JVM ?
+
+JDK	                         JRE	                                   JVM
+Java Development Kit	     Java Runtime Environment	            Java Virtual Machine
+Java develop karne ke liye	 Java application run karne ke liye  	Bytecode execute karne keliye
+JRE + development tools  	 JVM + libraries	                    Execution engine
+ 
+********JDK
+        └── JRE
+             └── JVM
+
+
+JDK = JRE + Development Tools
+JRE = JVM + Java Libraries
+JVM = Bytecode ko execute karta hai
+
+----------------------------------------------------------------------------------------
+
+Q5) What is JRE?       //Java application ko RUN karna.
+
+JRE stands for Java Runtime Environment. It provides the environment and libraries required to run Java applications. It contains the JVM and Java class libraries.
+
+JRE does not contain development tools like the Java compiler. Its main purpose is to provide the runtime environment required to execute Java applications.
+
+
+
+--------------------------------------------------------------------------------
+
+Q6)What is JDK?
+
+JDK stands for Java Development Kit. It is a complete development kit used to develop, compile, debug and run Java applications. It contains the JRE along with development tools such as the Java compiler.
+
+***********JDK ke andar kya hota hai?
+JDK
+│
+├── JRE
+│   └── JVM
+│
+├── javac
+├── java
+├── javadoc
+├── jar
+└── debugging/development tools
+
+
+------------------------------------------------------------------------------
+
+Complete Working — Most Important
+**********Example :
+Explain how a Java program works from source code to execution.
+
+First, we write Java source code in a .java file. The JDK provides the javac compiler, which compiles the source code into bytecode stored in a .class file. When we run the application, the JVM loads this bytecode using the Class Loader. The Execution Engine then interprets or JIT-compiles the bytecode into native machine instructions, which are executed by the CPU.
+
+          Developer
+              │
+              ▼
+       Hello.java
+       Source Code
+              │
+              ▼
+       JDK / javac
+          Compiler
+              │
+              ▼
+       Hello.class
+          Bytecode
+              │
+              ▼
+            JRE
+              │
+              ▼
+            JVM
+      ┌───────┴────────┐
+      │                │
+ Class Loader    Execution Engine
+                       │
+                ┌──────┴──────┐
+                │             │
+           Interpreter      JIT
+                │             │
+                └──────┬──────┘
+                       ▼
+              Machine Instructions
+                       │
+                       ▼
+                      CPU
+                       │
+                       ▼
+                    Output
+
+
+-----------------------------------------------------------------------------
+
+Q7) What is a class? ( Class ek blueprint/template hai jo define karti hai ki object ke paas kaunsa data aur kaunse behaviors honge.)
+
+A class is a blueprint or template used to create objects. (we can say logical entity)
+
+It defines the properties and behaviors that an object can have.
+
+Class doesnt get any sapace in memory.
+
+class consist Fields + Method + Constructor
+
+For example, Car can be a class containing properties like color and speed and methods like start() and stop().
+
+*************
+class Car {
+
+    // Properties / Data       .......fileds
+    String color;
+    int speed;
+
+    // Behavior / Method
+    void start() {
+        System.out.println("Car is starting");
+    }
+
+    void stop() {
+        System.out.println("Car is stopping");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Creating object
+        Car car1 = new Car();               //Car class ke blueprint se car1 naam ka actual
+                                               object create karo.
+
+        // Giving values to properties
+        car1.color = "Red";
+        car1.speed = 100;
+
+        // Accessing properties
+        System.out.println(car1.color);
+        System.out.println(car1.speed);
+
+        // Calling methods
+        car1.start();
+        car1.stop();
+    }
+}
+
+Output :
+
+Red
+100
+Car is starting
+Car is stopping
+
+-------------------------------------------------------------------------------------
+
+Q8) "Where is class stored and where is object stored in Java memory?"
+            
+
+                 JVM
+                  │
+        ┌─────────┴─────────┐
+        │                   │
+      Stack                Heap
+        │                   │
+   main() frame        Car Object
+        │              ┌────────────┐
+   car1 reference ───→ │ color=Red  │
+                       │ speed=100  │
+                       └────────────┘
+                             
+                 Method/Class Information
+                         ↓
+                    Class/Method Area
+                         │
+                         ▼
+                         Car
+                   ├── color
+                   ├── speed
+                   └── start()
+
+
+****************Sabse important line
+
+                   Car car1 = new Car();
+
+*****************Is line ko 3 parts me samjho:
+                       
+                       Car       car1       new Car()
+                        ↑          ↑           ↑
+                       type    reference     object
+
+******************new Car()  ------Ye heap memory me actual Car object create karta hai.
+                       
+ Heap
+┌────────────────────┐
+│ Car Object         │
+│ color = null       │
+│ speed = 0          │
+└────────────────────┘
+*********************car1 ek reference hai jo heap me created object ko refer karta hai.
+
+
+***tell in interview : 
+            car1 is a reference variable that refers to a Car object created in the heap.
+
+**********  Stack                         Heap
+
+            car1 ───────────────────────→ Car Object
+                                          color = null
+                                          speed = 0
+
+*******************************
+
+      "Class = Method Area, Object = Heap, Referance variable = Stack"
+
+      The class does not occupy heap memory like an object. However, when the JVM loads the class, it maintains the class metadata and related information in its runtime memory areas.
+
+
+----------------------------------------------------------------------------  
+
+Q9) What is an object? (Class blueprint hai, object us blueprint se bana hua actual instance hai.)
+
+It is a real entity created from the class and contains its own state while using the behavior defined by the class.
+
+An object is an instance of a class.
+
+It has state and behavior.
+
+The state is represented by fields or variables, and the behavior is represented by methods.
+
+**************basic syntax :
+               
+               ClassName objectName = new ClassName();
+
+
+
+For example, if Car is a class, then a specific car such as a red BMW can be considered an object of the Car class.
+
+**********Example:
+
+**************basic syntax :
+               
+                      ClassName objectName = new ClassName();
+
+               
+                         Car      car1 =      new Car();
+
+Car       → Class/type
+car1      → Reference variable
+new Car() → Object
+
+------------------------------------------------------------------------------------------------------
+
+Q10) What is a constructor?  ("Initialize" ka matlab hai object ke starting values set karna.)
+
+A constructor is special method that is called automaticaly when an object is created , to initialize object .
+
+It has the same name as the class and does not have a return type, not even void.
+
+************1) Constructor ki zarurat kyu padti hai?
+
+Maan lo constructor nahi hai:
+
+                           class Student {
+                                      String name;
+                                      int age;
+                            }
+
+************Object:
+
+                   Student s1 = new Student();
+
+                        s1.name = "Jay";
+                        s1.age = 22;
+
+ Yaha object banane ke baad values set karni pad rahi hain.
+
+ Agar 100 students hain:
+                          Student s1 = new Student();
+                             s1.name = "Jay";
+                             s1.age = 22;
+
+                          Student s2 = new Student();
+                             s2.name = "Rahul";
+                             s2.age = 21;
+
+Code repetitive ho raha hai.
+
+********************************Constructor se:
+
+                                            Student s1 = new Student("Jay", 22);
+                                            Student s2 = new Student("Rahul", 21);
+                                            Student s3 = new Student("Amit", 23);
+
+---------------------------------------------------------------------------------------
+
+Q11) types of constructor ?
+
+  There are mainly two types of constructors in Java:
+
+      1) No-argument constructor
+      2) Parameterized constructor
+
+No-argument constructor: koi parameter nahi hota; programmer khud bhi bana sakta hai.
+Default constructor: agar programmer ne koi constructor declare nahi kiya, to compiler automatically ek no-argument constructor provide karta hai.
+
+****************** 1) Default / No-Argument Constructor :
+
+                    class Student {
+
+                                String name;
+                                int age;
+
+                         Student() {                            // constructor
+                                name = "Jay";
+                                age = 22;
+                            }
+                    }
+
+       ***********Object:
+
+                          Student s1 = new Student();        
+
+******************** 2) Parameterized Constructor :  
+
+                     Syntax :
+
+                     class ClassName {
+
+                             ClassName(dataType parameter1, dataType parameter2) {
+                                       // initialization
+                              }
+                    }     
+
+ *********** Example :
+        
+                       class Student {
+
+                                     String name;
+                                     int age;
+
+                              Student(String n, int a) {
+                                       name = n;     // ya ex. madhe (this) vaprla nahi karn n = name as parameter name nahi use kel
+                                       age = a;      // (String name, int age ) as ast tr this use karav lagl ast 
+                                     }
+                        } 
+
+        ************Object:               
+                             Student s1 = new Student("Jay", 22);
+
+
+---------------------------------------------------------------------------------------------
+
+Q12) Why do we use this?
+    
+    class Student {
+
+    String name;                //fields / instance variable
+    int age;                    //fields / instance variable
+
+    Student(String name, int age) {
+        this.name = name;     // ya ex. madhe this vaprl karn , parameter 1 ani , filed  madhe pn name ahe .
+        this.age = age;
+    }
+}
+
+**************** Student s = new Student("Jay", 22);
+
+The this keyword refers to the current object.
+
+It is commonly used when instance variables and local variables have the same name.
+
+For example:
+
+this.name refers to the instance variable of the current object, while name refers to the constructor parameter.
+
+*******************
+                 this.name  → class ka instance variable / field
+                 name       → constructor ka parameter
+
+-----------------------------------------------------------------------------------------
+
+Q13) "How does a constructor work?" "Where is a constructor stored in memory?"
+
+Constructor: Object create hote waqt automatically execute hota hai aur Heap me bane object ke instance fields ko initialize karta hai; 
+Method: Object banne ke baad call karne par execute hota hai aur uska execution stack frame me hota hai.
+
+******************new Student() → Heap me Object → Constructor → fields initialize
+******************s.display()   → Method call → Stack me execution
+
+interview Answer :
+               
+               When an object is created, memory is allocated in the heap and the constructor is automatically executed to initialize the object's instance variables. When a method is called, its execution uses a stack frame.
+
+-------------------------------------------------------------------------------------------
+
+Q14) “What is a method?” What Is a Function?
+
+Functions (also known as methods in Java) are named blocks of code designed to perform specific tasks. They encapsulate a sequence of instructions, allowing you to call the same logic from multiple places in 
+
+A method is a block of code that defines the behavior or functionality of an object. It is executed when we explicitly call it.
+
+
+Q ) Why Use Functions?
+
+Reuse Code Calling a function multiple times avoids repetition of the same code.
+
+Organising Code Breaking a program into smaller functions makes it more readable and maintainable.
+
+Improve Readability Descriptive function names convey intent, helping other developers (and your future self) understand the code.
+
+Facilitate Testing You can test each function independently, ensuring correctness in isolation.
+
+****************Syntax of a Function
+
+<returnType> functionName([parameterList]) {
+    // body of the function
+}
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------
+
+Q15) What is static ?
+
+The static keyword is used for members that belong to the class , rather than to individual objects. A static member is associated with the class, so we generally don't need to create an object to access it. We can access it directly using the class name.
+
+use for memory manegment 
+
+In Static field some information is comman for  all object 
+ex. collage name 
+
+Static has single space and single storage
+
+Shared among all object 
+
+not part of an object 
+
+
+****************Simple example:
+
+class Student {
+
+    // Normal / Instance field
+    String name;
+
+    // Static field
+    static String college = "ABC College";            ← ONE storage(Ye har object ke andar 
+                                                         alag-alag college nahi banata.)
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Object create kiya
+        Student s1 = new Student();
+
+        // Normal field ko object ke through access karte hain
+        s1.name = "Jay";
+
+        System.out.println(s1.name);
+
+        // Static field ko class name ke through access karte hain
+        System.out.println(Student.college);
+    }
+}
+
+************Output:
+Jay
+ABC College
+
+****************Syntax : for access static method
+
+                     [  ClassName.methodName();    ]
+
+*****************Example:
+
+class Student {
+
+    static void showCollege() {
+        System.out.println("ABC College");
+    }
+}
+
+***in main
+
+Student.showCollege();
+
+--------------------------------------------------------------------------------
+
+Q16) Why is OOP important in Java?
+
+OOP stands for Object-Oriented Programming.
+
+It is a programming approach in which we organize software around objects that contain data and behavior.
+
+OOP is important in Java because it helps us organize and manage large Java applications by using classes and objects
+
+It provides features like encapsulation, inheritance, polymorphism, and abstraction
+
+which help make code reusable, maintainable, flexible, and easier to manage.
+
+*****************
+OOP
+ ↓
+Program ko real-world objects ki tarah organize karna
+ ↓
+Class + Object
+ ↓
+4 Pillars
+ ├── Encapsulation
+ ├── Inheritance
+ ├── Polymorphism
+ └── Abstraction
+
+
+ -------------------------------------------------------------------------------
+
+

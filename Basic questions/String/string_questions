@@ -1,0 +1,269 @@
+// 🔥 Java String  -  Complete Roadmap
+// String
+// │
+// ├── 1. String kya hai?
+// ├── 2. String ka syntax
+// ├── 3. String object kaise create karte hain?
+// ├── 4. String memory me kaise store hota hai?
+// ├── 5. String Constant Pool
+// ├── 6. String immutable kyu hai?
+// ├── 7. == vs equals()
+// ├── 8. new String() vs String literal
+// ├── 9. String methods
+// ├── 10. String concatenation
+// ├── 11. StringBuilder
+// ├── 12. StringBuffer
+// ├── 13. String vs StringBuilder vs StringBuffer
+// ├── 14. String interview questions
+// └── 15. Real-world use
+
+
+1. What is String in Java?
+
+String is a sequence of characters used to represent text in Java. In Java, String is a class provided by the java.lang package, and String objects are immutable.
+
+String is a class in Java used to represent a sequence of characters. It is present in the java.lang package, so we don't need to import it. String objects are immutable, which means their value cannot be changed after creation.
+
+************************Simple English:                  
+
+A String is used to store text, such as a name, email, address, or message.
+
+ //String name = "Jay";                    String → class/type
+                                        // name   → reference variable
+                                        //"Jay"  → String object/value
+
+*************************syntax :
+
+String variableName = "value";
+
+*********************************String create karne ke 2 common ways :
+
+1) Method 1 — String literal
+
+String name = "Jay";
+
+2) Method 2 — new keyword
+
+String name = new String("Jay");
+-------------------------------------------------------------------------
+2. Why is String immutable?
+
+String is immutable, which means once a String object is created, its value cannot be changed. This provides security, allows safe sharing through the String Pool, and makes String objects suitable for use in hash-based collections like HashMap.
+
+---------------------------------------------------------------------------
+3. What is String Constant Pool?
+
+String Constant Pool is a special area associated with the Java heap where String literals are stored and reused. If the same String literal already exists in the pool, Java can reuse the existing object instead of creating another one.
+
+***************************Example:
+
+String s1 = "Java";
+String s2 = "Java";
+
+
+s1 ──┐
+     ├──> "Java"  ← String Pool
+s2 ──┘
+
+----------------------------------------------------------------------------------
+4. Where are Strings stored in memory?
+
+String objects are stored in the heap
+
+String literals are maintained in the String Constant Pool, which is part of the heap.
+
+The reference variable may be stored in the stack when it is a local variable.
+
+****************************Example:
+
+String name = "Jay";
+
+******************************Simplified:
+
+Stack                  Heap / String Pool
+
+name ───────────────> "Jay"
+
+-------------------------------------------------------------------------------------
+5. Difference between String literal and new String()?
+
+When we create a String using a literal, Java checks the String Pool and can reuse an existing String object. When we use new String(), a new String object is explicitly created.
+
+************************Example:
+
+String a = "Java";
+String b = new String("Java");
+
+********************************Conceptually:
+
+String Pool             Heap
+
+"Java"  ← a             new String("Java") ← b
+
+
+
+------------------------------------------------------------------------------------
+6. Difference between == and equals()?
+
+The == operator compares references, while the equals() method compares the content of String objects.
+
+Example:
+
+String a = new String("Java");
+String b = new String("Java");
+
+System.out.println(a == b);
+System.out.println(a.equals(b));
+
+Output:
+
+false                                                //a → different object
+true                                                 //b → different object
+                                                       content → same
+
+---------------------------------------------------------------------
+7. Why is String commonly used as a HashMap key?
+
+
+------------------------------------------------------------------------------
+8. What is StringBuilder?
+
+StringBuilder is a mutable class used to modify strings without creating a new String object for every modification. It is useful when we perform frequent string operations.
+
+***************************Example:
+
+StringBuilder sb = new StringBuilder("Java");
+
+sb.append(" Programming");
+
+System.out.println(sb);
+
+***************************Output:
+
+Java Programming
+
+--------------------------------------------------------------------------------
+9. String vs StringBuilder?
+
+String is immutable, whereas StringBuilder is mutable. If we need frequent modifications, StringBuilder is generally more efficient than repeatedly creating new String objects.
+
+String
+→ Immutable
+
+StringBuilder
+→ Mutable
+
+------------------------------------------------------------------------------
+10. StringBuilder vs StringBuffer?
+
+Both StringBuilder and StringBuffer are mutable. StringBuffer is synchronized, while StringBuilder is not synchronized. Therefore, StringBuilder is generally preferred when thread synchronization is not required.
+
+
+****************************
+
+StringBuilder → Mutable + not synchronized
+StringBuffer  → Mutable + synchronized
+
+--------------------------------------------------------------------------------
+11. Can we modify a String?
+
+----------------------------------------------------------------------------------
+12. What happens when we concatenate Strings?
+
+When we concatenate Strings, Java creates a new String containing the combined content because String objects are immutable. The original Strings are not modified.
+
+*****************Example:
+String s1 = "Hello";
+String s2 = "Java";
+
+String s3 = s1 + " " + s2;
+
+System.out.println(s3);
+
+Output:
+
+Hello Java
+
+---------------------------------------------------------------------------
+13. What does intern() do?
+
+---------------------------------------------------------------------------------
+14. What is the String pool?
+
+The String Pool is a special area in the Java heap that stores String literals. It allows Java to reuse the same String object when the same literal already exists, which helps save memory.
+
+--------------------------------------------------------------------------------
+15. How many objects are created by new String("Java")?
+
+"2 objects"
+**********************************
+String Pool                 Heap
+
+"Java"                      new String("Java")
+   ↑                              ↑
+   |                              |
+   a                              s
+
+--------------------------------------------------------------------------------
+
+⭐ Tumhare interview ke liye 5 lines pakki yaad karo 
+
+1. String is a class used to represent a sequence of characters.
+
+2. String is immutable.
+
+3. String literals are maintained in the String Constant Pool.
+
+4. == compares references, while equals() compares content.
+
+5. StringBuilder is mutable and is useful for frequent modifications.
+
+
+
+------------------------------------------------------------------------------------
+
+1. String ke Important Methods          //String str = "Java Programming";
+
+
+| Method                  | Use                             | Example                          |
+| ----------------------- | ------------------------------- | -------------------------------- |
+| `length()`              | String ki length                | `str.length()`                   |
+| `charAt()`              | Specific character              | `str.charAt(0)`                  |
+| `toUpperCase()`         | Uppercase                       | `str.toUpperCase()`              |
+| `toLowerCase()`         | Lowercase                       | `str.toLowerCase()`              |
+| `equals()`              | Content compare                 | `str1.equals(str2)`              |
+| `equalsIgnoreCase()`    | Case ignore karke compare       | `str1.equalsIgnoreCase(str2)`    |
+| `contains()`            | Text present hai ya nahi        | `str.contains("Java")`           |
+| `startsWith()`          | Starting check                  | `str.startsWith("Java")`         |
+| `endsWith()`            | Ending check                    | `str.endsWith("ing")`            |
+| `substring()`           | String ka part nikalna          | `str.substring(5)`               |
+| `indexOf()`             | Character/String ka first index | `str.indexOf("a")`               |
+| `lastIndexOf()`         | Last occurrence ka index        | `str.lastIndexOf("a")`           |
+| `replace()`             | Character/String replace        | `str.replace('a','o')`           |
+| `replaceAll()`          | Pattern ke according replace    | `str.replaceAll("a","o")`        |
+| `trim()`                | Beginning/end ke spaces remove  | `str.trim()`                     |
+| `isEmpty()`             | Empty hai ya nahi               | `str.isEmpty()`                  |
+| `isBlank()`             | Empty/only whitespace check     | `str.isBlank()`                  |
+| `concat()`              | Strings join karna              | `str1.concat(str2)`              |
+| `split()`               | String ko parts me divide       | `str.split(" ")`                 |
+| `compareTo()`           | Lexicographical comparison      | `str1.compareTo(str2)`           |
+| `compareToIgnoreCase()` | Case ignore comparison          | `str1.compareToIgnoreCase(str2)` |
+
+
+
+-------------------------------------------------------------------------------------------
+
+2. Character Class ke Important Methods               //char ch = 'A';
+
+| Method                          | Use                       |
+| ------------------------------- | ------------------------- |
+| `Character.isUpperCase(ch)`     | Uppercase hai?            |
+| `Character.isLowerCase(ch)`     | Lowercase hai?            |
+| `Character.toUpperCase(ch)`     | Uppercase karta hai       |
+| `Character.toLowerCase(ch)`     | Lowercase karta hai       |
+| `Character.isDigit(ch)`         | Digit hai?                |
+| `Character.isLetter(ch)`        | Letter hai?               |
+| `Character.isLetterOrDigit(ch)` | Letter ya digit hai?      |
+| `Character.isWhitespace(ch)`    | Whitespace hai?           |
+| `Character.isSpaceChar(ch)`     | Space character hai?      |
+| `Character.isAlphabetic(ch)`    | Alphabetic character hai? |
