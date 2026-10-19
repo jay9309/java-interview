@@ -1,0 +1,267 @@
+
+
+Q1) What is the difference between authentication and authorization?  
+  (Admin login यशस्वी होणे म्हणजे authentication. त्या admin ला job delete करण्याची permission आहे का, हे authorization.)
+
+1.Authentication verifies a user's identity
+
+2.authorization determines what that user is permitted to access    
+
+Authentication	                                               Authorization
+Who are you?	                                         What are you allowed to do?
+Verifies identity	                                     Checks permissions
+Example: user login	                                     Example: only admin can delete jobs
+
+-------------------------------------------------------------------------------------------
+
+Q2) What happens if a normal user manually calls the admin API?
+
+Answer: “The backend checks the user's identity and role. If the user does not have the required permission, the server rejects the request, typically with a 403 Forbidden response.”
+Hindi: Browser se direct API call karne par bhi backend admin permission check karega.
+
+------------------------------------------------------------------------------------------
+
+Q3) What happens when the JWT token expires?
+
+Answer: “The server rejects the expired token. The user must log in again or obtain a new access token through a properly implemented refresh-token flow.”
+Hindi: Expired token se protected API access nahi milna chahiye.
+
+----------------------------------------------------------------------------------------------------------------------
+
+Q4) What is Authentication?(in spring boot )
+
+*********English answer:
+“Authentication is the process of verifying the identity of a user. In Spring Boot, Spring Security can authenticate a user using credentials such as username and password.”
+
+मराठीत: User खरंच कोण आहे, हे verify करणं म्हणजे Authentication. उदाहरणार्थ, JobNest मध्ये email आणि password तपासून login करणे.
+
+*********Counter-question: Which class is used to authenticate users in Spring Security?
+Answer: AuthenticationManager authentication process हाताळण्यासाठी वापरला जाऊ शकतो. 
+UserDetailsService username वरून user details load करण्यासाठी वापरला जातो.
+
+-----------------------------------------------------------------------------------------------
+
+Q5) What is Authorization?
+********English answer:
+“Authorization determines what an authenticated user is allowed to access or perform.”
+मराठीत: Login झाल्यानंतर user ला कोणत्या गोष्टी करण्याची permission आहे, हे तपासणं.
+
+उदाहरण:
+- ROLE_USER — सामान्य user साठी परवानगी असलेली कामं.
+- ROLE_ADMIN — admin-only कामं, जसं job delete करणे.
+
+*********Counter-question: How do you implement authorization in Spring Boot?
+Answer: “I can configure role-based access using Spring Security request authorization rules or method-level security annotations such as @PreAuthorize.”
+
+*********उदाहरण:
+
+@PreAuthorize("hasRole('ADMIN')")                                //ही फक्त उदाहरणार्थ controller method आहे
+@DeleteMapping("/jobs/{id}")
+public String deleteJob(@PathVariable Long id) {
+    return "Job deleted";
+}
+
+---------------------------------------------------------------------------------------------
+
+Q3. What is JWT?
+********English answer:
+“JWT stands for JSON Web Token. It is a token format used to securely transmit claims between parties. In a Spring Boot application, it can be used to authenticate requests without maintaining a traditional server-side session for each request.”
+
+मराठीत: Login झाल्यानंतर server एक token देतो. Client तो protected API requests सोबत पाठवतो. Server token verify करून user ची identity तपासतो.
+********Counter-question: What are the three parts of JWT?
+Answer:
+1. Header
+2. Payload
+3. Signature
+
+
+------------------------------------------------------------------------------------------------
+
+Q4. How does JWT authentication work in Spring Boot?
+
+**********English answer:
+“First, the user sends login credentials. Spring Security authenticates the user. If authentication succeeds, the application generates a JWT. The client sends that token with subsequent requests, and Spring Security validates it before granting access to protected resources.”
+
+मराठीत flow:
+1. Login Request
+Username + Password
+
+2. Spring Security
+Credentials verify करते
+
+3. JWT Generation
+Successful login नंतर token तयार होतो
+
+4. JWT Validation
+Protected API request वर token verify होतो
+
+5. Authorization
+Permission असेल तर access मिळतो
+
+------------------------------------------------------------------------------------------------
+
+Q5. Where is JWT stored in a Java Spring Boot project?
+
+********English answer:
+“The JWT is commonly stored on the client side, not necessarily in the database. For browser applications, a Secure, HttpOnly cookie is one option. The backend stores the signing key in secure configuration. The exact storage strategy depends on the application architecture.”
+
+********मराठीत:
+- Browser मध्ये token cookie मध्ये ठेवता येतो.
+- दुसऱ्या architecture मध्ये client token memory मध्ये ठेवून Authorization header मधून पाठवू शकतो.
+- JWT_SECRET किंवा private signing key backend च्या secure configuration मध्ये असतो.
+- Stateless JWT access tokens प्रत्येक वेळी database मध्ये save करणे आवश्यक नसते.
+
+*******Counter-question: Is JWT stored in MySQL?
+Answer: “Not necessarily. A stateless access token does not need to be stored in MySQL. User details are typically stored in the database, while refresh tokens or revocation records may be stored separately if required.”
+
+----------------------------------------------------------------------------------------------
+
+Q8. What is PasswordEncoder?
+
+***English answer:
+“PasswordEncoder is used to encode passwords and verify submitted passwords against stored password hashes. BCrypt is a commonly used password-hashing algorithm.”
+मराठीत: Database मध्ये plain password ठेवण्याऐवजी password hash करून save करतो.
+
+उदाहरण:
+PasswordEncoder encoder =
+        new BCryptPasswordEncoder();
+
+String hashedPassword =
+        encoder.encode("Jay@12345");
+
+boolean matches =
+        encoder.matches(
+            "Jay@12345",
+            hashedPassword
+        );
+
+*******Counter-question: Can we decrypt a BCrypt password?
+Answer: “No. BCrypt is a one-way password-hashing algorithm. We verify a password using matches() rather than decrypting the stored hash.”    
+
+-----------------------------------------------------------------------------------------------------
+
+Q9) Why did you choose Spring Boot for JobNest?
+
+English answer:
+“I chose Spring Boot because it simplifies Java backend development. It provides auto-configuration, starter dependencies, embedded server support, and convenient integration with databases and REST APIs. This helps me develop and maintain backend services more efficiently.”
+
+
+*********मराठी explanation:
+Spring Boot मुळे Java backend तयार करणे सोपे होते. Database connection, REST controllers आणि dependency management यांसारखी कामे सोप्या पद्धतीने करता येतात.
+Follow-up: What is the difference between Spring and Spring Boot?
+- Spring Framework: Dependency injection, web development आणि इतर enterprise features देते.
+- Spring Boot: Spring application चे configuration आणि setup सोपे करते.
+
+
+-------------------------------------------------------------------------------------------------------
+
+Q10) Explain the architecture of JobNest.
+
+English answer:
+“My application follows a layered backend architecture. The controller receives HTTP requests, the service layer contains business logic, and the repository layer handles database operations. The database stores application data, and the backend returns responses to the frontend through REST APIs.”
+
+
+1.Frontend
+Job listings · Login · Admin dashboard
+
+2.Spring Boot REST API
+Controller layer
+
+3.Service Layer
+Business logic · Validation
+
+3.Repository Layer
+Spring Data JPA / Hibernate, if used
+
+4.Database
+The database configured in your project
+
+-------------------------------------------------------------------------------------------------------
+Q11) What challenges did you face in your project?
+तुझ्या actual experience शी जुळणारे उत्तर निवड.
+
+Sample answer:
+“One of the challenges in developing a full-stack application is ensuring proper communication between the frontend, backend, and database. I approach such issues by checking API requests and responses, validating backend logs, and testing endpoints independently. This helps me identify whether the problem is in the frontend, backend logic, or database layer.”
+
+मराठी: एखादी API काम करत नसेल तर browser Network tab, backend logs आणि Postman वापरून समस्या कुठे आहे ते शोधणे.
+खरंच अनुभवलेली अडचण आणि तू केलेले solution सांगितलेस तर हे उत्तर अधिक प्रभावी होईल.
+
+-------------------------------------------------------------------------------------------------------
+
+Q12) How have you integrated security into your JobNest project?
+
+“In my JobNest project, security is important to protect user data and restrict unauthorized access.
+I focus on the following security measures:
+
+1. Authentication: Verify user credentials before allowing access to protected features.
+2. Authorization: Restrict admin operations, such as managing job listings, to users with the appropriate role.
+3. Password Security: Store passwords as secure hashes instead of plain text.
+4. API Security: Protect restricted REST APIs so unauthorized users cannot access them.
+5. Input Validation: Validate user inputs to prevent invalid data from entering the application.
+6. Configuration Security: Keep database credentials and secret keys outside the source code.
+These measures help improve the security of the application. I would also test authentication, authorization, and invalid requests to verify that the security rules work correctly.”
+
+
+---------------------------------------------------------------------
+
+Q13) How does OOP work in your JobNest project?
+
+“In my JobNest project, I use Object-Oriented Programming concepts to organize the backend code and make it reusable and maintainable.
+
+Encapsulation: I use classes such as Job to group job-related data and methods. Fields can be kept private and accessed through getters, setters, or controlled methods.
+
+Abstraction: I separate business logic from database operations using layers such as service classes and repository interfaces.
+
+Inheritance: In Spring Data JPA, my repository interface can extend JpaRepository, which provides common database operations without requiring me to implement them manually.
+
+Polymorphism: Spring Data JPA provides repository interfaces whose methods are implemented by the framework at runtime. This lets me use common repository methods through an interface.
+These OOP concepts help make the JobNest backend modular, reusable, and easier to maintain.”
+
+
+
+***********आता प्रत्येक pillar सोप्या मराठीत समजून घे.
+1. Encapsulation — Data सुरक्षित ठेवणे
+
+public class Job {
+    private Long id;
+    private String title;
+    private String company;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+}
+
+
+JobNest मध्ये: Job class मध्ये job ची माहिती एकत्र ठेवता येते. private fields मुळे data ला थेट access मर्यादित करता येतो.
+Interviewer विचारू शकतो: Why do we use private variables?
+Answer: To control access to data and protect the object's internal state.
+
+*******2. Abstraction — Implementation details लपवणे
+public interface JobRepository
+        extends JpaRepository<Job, Long> {
+}
+
+
+JobNest मध्ये: JobRepository वापरून आपण save(), findAll() आणि findById() सारख्या database operations वापरू शकतो. Spring Data JPA त्यांची implementation उपलब्ध करून देते.
+Answer in English: “Abstraction allows me to use database operations through an interface without writing their complete implementation myself.”
+
+******3. Inheritance — Existing functionality वापरणे
+public interface JobRepository
+        extends JpaRepository<Job, Long> {
+}
+
+
+इथे JobRepository हे JpaRepository extend करते.
+JobNest मध्ये: Repository ला आधीपासून उपलब्ध असलेल्या database operations चा फायदा मिळतो. स्वतः प्रत्येक CRUD method लिहावी लागत नाही.
+Follow-up: Is interface inheritance the same as class inheritance?
+No. A class can extend another class, while an interface can extend another interface. Both are forms of inheritance in Java.
+
+*******4. Polymorphism — एक interface, वेगवेगळ्या implementations
+उदाहरणार्थ, Spring Data JPA repository interface ची implementation framework runtime ला उपलब्ध करून देते. आपण interface च्या माध्यमातून methods call करतो.
+Answer in English: “Polymorphism allows us to work with a common interface while the actual implementation can vary.”
+एक महत्त्वाची technical गोष्ट: JpaRepository वापरणे हे स्वतःहून polymorphism चे सर्वात स्पष्ट उदाहरण नाही. Runtime polymorphism दाखवण्यासाठी interface आणि त्याच्या दोन वेगवेगळ्या implementations चे उदाहरण अधिक योग्य ठरते.

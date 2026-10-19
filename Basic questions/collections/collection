@@ -1,0 +1,984 @@
+Collection Framework Hierarchy ⭐⭐⭐⭐⭐
+
+                       Iterable
+                          |
+                      Collection
+                          |
+          ┌───────────────┼───────────────┐
+          ↓               ↓               ↓
+        List              Set            Queue
+          |                |               |
+    ┌─────┼─────┐     ┌────┼────┐     ┌───┴────┐
+    ↓     ↓     ↓     ↓         ↓     ↓        ↓
+ ArrayList LinkedList Vector  HashSet LinkedHashSet PriorityQueue
+                                      |
+                                   TreeSet
+
+
+
+**********************************Map वेगळा hierarchy आहे:
+
+Map
+ |                                             //हा point interviewer intentionally विचारू शकतो.
+ ├── HashMap
+ ├── LinkedHashMap
+ ├── TreeMap
+ └── Hashtable
+
+ ------------------------------------------------------------------------------------------
+
+ Q1) What is collection ?
+
+*********************Interview answer
+
+Collection is a framework in Java used to store and manipulate a group of objects efficiently. It provides ready-made data structures such as List, Set and Queue, along with classes like ArrayList, HashSet and PriorityQueue.
+
+****************Example :
+
+ArrayList<String> students = new ArrayList<>();
+
+students.add("Rahul");
+students.add("Amit");
+students.add("Jay");          //आता आपण अनेक objects/data एकाच structure मध्ये manage करू शकतो.
+
+-----------------------------------------------------------------------------------------------
+
+Q2) Why do we need Collections?
+
+************************Understand Problem with arrays :
+
+String[] names = new String[3];      //Array ची size fixed आहे.  //  जर नंतर 4th student आला तर?
+                                     ❌ Existing array directly increase करू शकत नाही.
+
+***********************But Collection मध्ये:
+
+ArrayList<String> names = new ArrayList<>();
+
+names.add("Jay");
+names.add("Amit");
+names.add("Rahul");
+names.add("Sneha");      
+
+******************************Collections provide:
+- Dynamic size
+- Searching
+- Sorting
+- Adding/removing
+- Duplicate handling
+- Different data structures
+- Ready-made methods
+- Better data management
+
+--------------------------------------------------------------------------------------------
+
+Q3) Collection vs Collections
+
+******************Interview answer
+
+Collection is an interface representing a group of objects, whereas Collections is a utility class that provides static methods for operations such as sorting, reversing and searching collections.
+
+--------------------------------------------------------------------------------------------
+
+Q4) List means :                                Duplicate allowed ✅      Order maintained ✅
+
+Ordered collection that allows duplicate elements.
+
+ordered collection of elements
+
+can access elements by their index
+
+add duplicates, and maintain the insertion order
+
+List is an interface, you cannot create a List object directly.
+
+****************Example:
+
+List<String> names = new ArrayList<>();
+
+names.add("Jay");
+names.add("Amit");
+names.add("Jay");
+
+***************Output:
+[Jay, Amit, Jay]
+
+*****************Index available ✅
+
+System.out.println(names.get(0));
+
+********************Output:
+Jay
+
+----------------------------------------------------------------------------------------------
+
+Q5) ArrayList ⭐⭐⭐⭐⭐
+
+An ArrayList is like a resizable array.
+
+It is part of the java.util package and implements the List interface.
+
+The difference between a built-in array and an ArrayList in Java, is that the size of an array cannot be modified (if you want to add or remove elements to/from an array, you have to create a new one). While elements can be added and removed from an ArrayList whenever you want.
+
+you can use methods like add(), get(), set(), and remove() to manage your list of elements.
+
+*************syntax:
+ArrayList<DataType> variableName = new ArrayList<>();
+
+**************Example :
+
+ArrayList<Integer> numbers = new ArrayList<>();
+ArrayList<String> names = new ArrayList<>();
+ArrayList<Double> marks = new ArrayList<>();
+
+*******************************************************
+
+ArrayList<String> names = new ArrayList<>();
+
+names.add("Jay");
+names.add("Amit");
+names.add("Rahul");
+
+System.out.println(names);
+
+*****************************Output:
+[Jay, Amit, Rahul]
+
+**********************************Real-world example
+
+Suppose an e-commerce application has a user's cart:
+Shopping Cart
+----------------
+Laptop
+Mouse
+Keyboard
+Headphones
+
+Items maintain order and duplicates may be allowed.
+
+***************Important properties
+
+| Property                 | ArrayList |
+|---               |                ---|
+| Order            |        Maintained |
+| Duplicate        |           Allowed |
+| Null             |           Allowed |
+| Index            |               Yes |
+| Size             |           Dynamic |
+| Random access    |              Fast |
+
+
+---------------------------------------------------------------------------------------
+
+Q6) ArrayList vs Array
+
+| Array                           |                                   ArrayList |
+|---                              |                                          ---|
+| Fixed size                      |                                Dynamic size |
+| Can store primitives            |     Stores objects; primitives use wrappers |
+| `arr.length`                    |                            `list.size()`    |
+| Less built-in functionality     |                         Many useful methods |
+| Faster/simple for fixed data    |                   Flexible for dynamic data |
+
+--------------------------------------------------------------------------------------------
+
+| Data type                     | Length कशी काढायची |
+|---|---|
+| Array                         | `arr.length` |
+| String                        | `str.length()` |
+| List                          | `list.size()` |
+
+
+---------------------------------------------------------------------------------------------
+
+Q7)  What is LinkedList?
+A LinkedList is a linear data structure where elements are stored in separate objects called nodes.
+Unlike an ArrayList, elements are not stored in a continuous array.
+
+*******************Each node contains:
+
+[ Previous | Data | Next ]
+
+*******************LinkedList Structure
+
+LinkedList<Integer> list = new LinkedList<>();
+
+list.add(10);
+list.add(20);
+list.add(30);
+
+
+********************Conceptually, its structure is:
+        Node 1              Node 2              Node 3
+
+     ┌────────────┐      ┌────────────┐      ┌────────────┐
+     │ prev       │      │ prev       │      │ prev       │
+     │  null      │      │  Node 1    │      │  Node 2    │
+     │            │      │            │      │            │
+     │ data = 10  │ ───► │ data = 20  │ ───► │ data = 30  │
+     │            │      │            │      │            │
+     │ next       │      │ next       │      │ next       │
+     │  Node 2    │ ◄─── │  Node 3    │ ◄─── │  null      │
+     └────────────┘      └────────────┘      └────────────┘
+
+null ← [10] ⇄ [20] ⇄ [30] → null
+
+Q1) Why is it called "Linked" List?
+Because nodes are linked with references.        //[10] ⇄ [20] ⇄ [30]
+
+***************************Java LinkedList Syntax
+LinkedList<DataType> variableName = new LinkedList<>();
+
+Q2) "What is the internal structure of Java LinkedList?"
+
+"Java LinkedList is implemented as a doubly linked list. Each node contains the element, a reference to the previous node, and a reference to the next node."
+
+Q3) why we use linked list or doubly list if they have same method ?
+
+"Although ArrayList and LinkedList implement the same List interface and provide similar operations, their internal implementations are different. ArrayList is backed by a dynamic array, so it provides fast random access by index. 
+
+LinkedList is a doubly linked list, so index-based access is slower, but operations at the ends and unlinking a known node are efficient. Therefore, developers choose between them based on the application's access pattern."
+
+---------------------------------------------------------------------------------------------
+
+What is the difference between ArrayList and LinkedList?
+
+
+"ArrayList internally uses a dynamic array, whereas LinkedList uses a doubly linked list. ArrayList provides fast random access using index, so get operation is O(1). 
+
+LinkedList requires traversal for index-based access, so get is O(n). LinkedList is useful when we frequently insert or remove elements, especially at the beginning or end. ArrayList is generally preferred when we frequently access or search elements by index."
+
+-------------------------------------------------------------------------------------------
+
+Q4) Set vs. List
+
+List	                                           Set
+Allows duplicates	                        Does not allow duplicates
+Maintains order	                            Does not guarantee order
+Access by index	                            No index-based access
+
+-----------------------------------------------------------------------------------------
+
+Q5) Why do we need Set?
+
+"We use Set when we need to store unique elements and don't want duplicate values."
+
+समजा application मध्ये users चे unique email IDs store करायचे आहेत:
+jay@gmail.com
+rahul@gmail.com
+jay@gmail.com
+amit@gmail.com
+
+****************जर ArrayList वापरली:
+
+[jay@gmail.com, rahul@gmail.com, jay@gmail.com, amit@gmail.com]
+
+Duplicate आहे.
+
+******************पण Set:
+
+[jay@gmail.com, rahul@gmail.com, amit@gmail.com]
+
+Duplicate automatically avoid होतो.
+
+----------------------------------------------------------------------------------------
+
+Q6) Set चे types
+
+                 Set
+                  |
+        ---------------------
+        |         |         |
+    HashSet   LinkedHashSet TreeSet
+
+************************    HashSet
+No duplicate
+No guaranteed order
+Fast operations
+
+************************     LinkedHashSet
+No duplicate
+Maintains insertion order
+
+*************************     TreeSet
+No duplicate
+Stores elements in sorted order
+
+------------------------------------------------------------------------------------
+1) What is HashSet?
+
+*************
+import java.util.HashSet;
+
+class Demo {
+
+    public static void main(String[] args) {
+
+        HashSet<Integer> set = new HashSet<>();
+
+        set.add(10);
+        set.add(20);
+        set.add(10);
+        set.add(30);
+
+        System.out.println(set);
+    }
+}
+
+*********Possible output:
+[20, 10, 30]                      //Order guaranteed नाही.
+
+***********Syntax:
+
+HashSet<Integer> set = new HashSet<>();
+
+--------------------------------------------------------------------------------------
+
+Important methods table
+
+| Method                                  | Purpose                    |
+|---|---|
+| `add()`                                 | Add element                |
+| `remove()`                              | Remove element             |
+| `contains()`                            | Check element              |
+| `size()`                                | Number of elements         |
+| `isEmpty()`                             | Check empty                |
+| `clear()`                               | Remove all elements        |
+
+
+----------------------------------------------------------------------------------------
+
+2) "How do you remove duplicates from an ArrayList?" // using hashset 
+
+import java.util.*;
+
+class Demo {
+    public static void main(String[] args) {
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        list.add(10);
+        list.add(20);
+        list.add(10);
+        list.add(30);
+        list.add(20);
+
+        HashSet<Integer> set = new HashSet<>(list);    //order maintain nahi thevt 
+
+        //LinkedHashSet<Integer> set = new LinkedHashSet<>(list);     order maintain thevto 
+
+        System.out.println(set);
+    }
+}
+
+************************Input:
+[10, 20, 10, 30, 20]
+
+***********************Output:
+[20, 10, 30]
+
+------------------------------------------------------------------------------------
+
+⭐ Most Important Concept to Remember  hashset 
+
+"How does HashSet identify duplicates?"
+
+"HashSet uses hashCode() to locate the appropriate bucket and equals() to determine whether an equivalent element already exists. Therefore, both hashCode() and equals() are important for duplicate detection."
+
+1. What is Set?
+
+Interview Answer:
+"Set is an interface in the Java Collection Framework that is used to store unique elements. It does not allow duplicate elements."
+
+2. What is HashSet?
+Interview Answer:
+"HashSet is a class that implements the Set interface. It uses hashing internally to store elements and does not allow duplicate elements. It does not guarantee insertion order."
+
+3. Why do we use HashSet?
+Interview Answer:
+"We use HashSet when we need to store unique elements and want efficient average-time operations for adding, removing, and checking elements."
+
+Real-world examples:
+- Unique usernames
+- Unique email IDs
+- Unique product IDs
+- Removing duplicates
+- Unique tags/categories
+
+4. Can HashSet contain null?   // but Can not HashSet contain multiple null values
+Answer:
+"Yes. HashSet allows one null element."
+
+5. Can we access HashSet using index?     //set.get(2); // ❌
+Answer:
+"No. HashSet is not index-based, so it does not provide a get(index) method."
+Because HashSet stores elements based on hashing rather than index positions.
+
+6. What is the difference between List and Set?
+Interview Answer:
+"List allows duplicate elements and maintains insertion order, whereas Set is used to store unique elements. List supports index-based access, while Set generally does not provide index-based access."
+
+7. How does HashSet prevent duplicates?
+This is one of the most important questions.
+Interview Answer:
+"HashSet uses hashing to determine the bucket for an element. It uses hashCode() and equals() to determine whether an equivalent element already exists. If an equivalent element is already present, the new element is not added."
+
+8. What is hashing?
+Interview Answer:
+"Hashing is a technique of converting an object into a hash value, which helps a hash-based collection determine where the object should be stored."
+
+9. What is a bucket?
+Interview Answer:
+"A bucket is a location in the hash table where elements or entries associated with a particular hash are stored."
+
+10. How does HashSet work internally?
+This is a very important advanced question.
+Interview Answer:
+"HashSet is backed by a HashMap internally. When we add an element to a HashSet, the element is stored as a key in the internal HashMap, with a dummy constant object used as the value. Hashing is used to determine the bucket, and hashCode() and equals() are used to handle duplicate detection."
+
+11. What happens when two objects have the same hash code?
+Interview Answer:
+"If two objects have the same hash code, they can map to the same bucket. HashSet then uses equals() to determine whether they are actually equal. If equals() returns false, both objects can be stored."
+
+12. Can we store custom objects in HashSet?
+Answer:
+"Yes, we can store custom objects in a HashSet. However, if we want HashSet to identify duplicates based on our object's logical fields, we should properly overr
+ide equals() and hashCode()."
+
+--------------------------------------------------------------------------------------------
+
+2) Java TreeSet 
+
+A TreeSet is a collection that stores unique elements in sorted order.
+
+It is part of the java.util package and implements the Set interface.
+
+Unlike HashSet, which has no order, TreeSet keeps its elements sorted automatically.
+
+Duplicates  will only appear once.
+
+ Duplicate values are not counted - only unique elements are included in the (size.)
+
+ **************General syntax:
+
+TreeSet<DataType> variableName = new TreeSet<>();
+
+
+**********************HashSet vs TreeSet
+
+Feature                	HashSet	                                  TreeSet
+Order	               No guaranteed order	               Sorted (natural order)
+Duplicates             Not allowed	                           Not allowed
+Performance	           Faster (no sorting)	               Slower (due to sorting)
+
+************************Why do we need TreeSet?
+
+Store unique values and always keep them sorted.
+
+************************TreeSet internally कसा काम करतो?
+
+"TreeSet is backed by a TreeMap and uses a tree-based structure to maintain elements in sorted order."
+
+          30
+         /  \
+       20    50
+      /     /
+    10     40
+
+******************HashSet vs LinkedHashSet vs TreeSet
+
+| Feature                 | HashSet           |           LinkedHashSet |              TreeSet |
+|---|---|---|---|
+| Duplicates              | ❌                | ❌                     | ❌                   |
+| Insertion order         | ❌                | ✅                     | ❌                   |
+| Sorted order            | ❌                | ❌                     | ✅                   |
+| Index                   | ❌                | ❌                     | ❌                   |
+| Average/basic operation | O(1)               | O(1)                   | O(log n)              |
+| Internal basis          | Hash table         | Hash table + links     | TreeMap/tree          |
+
+
+Q*) Important TreeSet methods
+TreeSet मध्ये काही special methods आहेत जे HashSet मध्ये नाहीत.
+
+Smallest element:  set.first();
+
+Largest element:   set.last();
+
+******************************Example:
+TreeSet<Integer> set = new TreeSet<>();
+
+set.add(30);
+set.add(10);
+set.add(20);
+
+System.out.println(set.first());
+System.out.println(set.last());
+
+******************************Output:
+10
+30
+
+********************)  Can TreeSet contain null?
+
+Interview answer:
+"TreeSet generally does not allow null when using natural ordering, because it needs to compare elements for sorting."
+
+TreeSet<Integer> set = new TreeSet<>();
+
+set.add(null);
+
+*********************This generally throws:
+NullPointerException
+
+************************)Q: How does TreeSet know how to sort elements?
+For built-in classes:
+"TreeSet uses the natural ordering of elements, or a Comparator if one is provided."
+
+****commonly use:
+Comparable
+or
+Comparator
+
+****************)Q 1. What is Comparable?
+Interview Answer
+"Comparable is an interface used to define the natural ordering of objects. It is present in the java.lang package and provides the compareTo() method."
+
+***************)Q 2. What is Comparator?
+Interview Answer
+"Comparator is an interface used to define custom ordering of objects. It allows us to create different sorting strategies without modifying the original class."
+
+**************Q: What is the difference between Comparable and Comparator?  //IMP
+Interview Answer:
+"Comparable is used to define the natural ordering of a class using the compareTo() method, whereas Comparator is used to define custom sorting logic using the compare() method. Comparable requires modifying the class, while Comparator allows us to define sorting logic separately."
+
+---------------------------------------------------------------------------------------
+
+3) What is LinkedHashSet?
+Interview Answer:
+
+"LinkedHashSet is a Set is a collection that stores unique elements that does not allow duplicate elements and maintains the insertion order of elements."
+
+***************Example:
+LinkedHashSet<Integer> set = new LinkedHashSet<>();
+
+set.add(30);
+set.add(10);
+set.add(20);
+set.add(10);
+
+System.out.println(set);
+
+****************Output:
+[30, 10, 20]
+
+******************Syntax
+
+import java.util.LinkedHashSet;
+
+LinkedHashSet<DataType> variableName = new LinkedHashSet<>();
+
+
+*******************************HashSet vs LinkedHashSet
+
+| Feature                    | HashSet                    | LinkedHashSet                      |
+|                      ---|                            ---|                                   ---|
+| Duplicate               | ❌                           | ❌                                   |
+| Insertion order         | ❌ No guarantee              | ✅ Maintains                         |
+| Index                   | ❌                           | ❌                                   |
+| Hashing                 | ✅                           | ✅                                   |
+| Performance             | Generally slightly better    | Slight overhead for maintaining order |
+
+
+Q*) Why do we need LinkedHashSet?
+
+Remove duplicates but preserve original order.
+
+***********Interview Answer
+"We use LinkedHashSet when we need unique elements while also preserving their insertion order."
+
+Q*) One interview scenario
+
+Interviewer:
+"I have a list of 1, 2, 1, 3, 2, 4. I want to remove duplicates but preserve the original order. Which collection will you use?"
+
+Answer:
+"I would use LinkedHashSet because it removes duplicates while preserving insertion order."
+
+---------------------------------------------------------------------------------------
+
+Q4) What is Map?
+Interview Answer:
+
+"Map is an interface in the Java Collection Framework that stores data in key-value pairs. Each key must be unique, while values can be duplicated."
+
+*****************Example:
+Map<Integer, String> students = new HashMap<>();
+
+students.put(101, "Jay");
+students.put(102, "Rahul");
+students.put(103, "Amit");
+
+*****************Data:
+101 → Jay                                //101 = Key
+102 → Rahul                              //Jay = Value
+103 → Amit
+
+********************Map ची important property
+
+Map
+ ↓
+Key → Unique
+Value → Duplicate allowed
+
+---------------------------------------------------------------------------------------
+
+Q5)what is  HashMap ⭐⭐⭐⭐⭐
+
+Interview Answer
+"HashMap is a class in Java that implements the Map interface. It stores data in key-value pairs. Keys must be unique, while values can be duplicated. HashMap uses hashing internally for efficient data retrieval."
+
+A HashMap stores items in key/value pairs, where each key maps to a specific value.
+
+Instead of accessing elements by an index (like with ArrayList), you use a key to retrieve its associated value.
+
+Syntax:
+HashMap<Integer, String> map = new HashMap<>();
+
+******************Important HashMap Methods
+
+| Method                             | Use |
+|---|---|
+| `put()`                            | Key-value add/update |
+| `get()`                            | Key वरून value मिळवणे |
+| `remove()`                         | Key-value remove करणे |
+| `containsKey()`                    | Key आहे का check |
+| `containsValue()`                  | Value आहे का check |
+| `size()`                           | किती entries आहेत |
+| `isEmpty()`                        | Map रिकामा आहे का |
+| `clear()`                          | सर्व entries remove |
+| `keySet()`                         | सर्व keys मिळवणे |
+| `values()`                         | सर्व values मिळवणे |
+| `entrySet()`                       | key-value pairs मिळवणे |
+
+
+************************Q: Can HashMap have duplicate keys?
+Answer:
+"No. HashMap does not allow duplicate keys. If we insert a value using an existing key, the old value is replaced by the new value."
+
+But duplicate values?
+"Yes. HashMap allows duplicate values."
+
+***************************Q. Why do we use HashMap?
+Inter
+view Answer
+"We use HashMap when we need to store data in key-value form and retrieve a value efficiently using its key."
+
+***************************What is containsKey()?
+Interview Answer
+"containsKey() checks whether a specified key exists in the HashMap."
+
+//map.containsKey(101);
+//true
+
+***************************What is containsValue()?
+Interview Answer
+"containsValue() checks whether a specified value exists in the HashMap."
+//map.containsValue("Jay");
+//true
+
+**************************Can HashMap contain null?
+Yes.
+Important interview answer:
+"HashMap allows one null key and multiple null values."
+
+Example:
+map.put(null, "Jay");
+map.put(101, null);
+map.put(102, null);
+
+**************************Does HashMap maintain insertion order?
+Answer:
+"No. HashMap does not guarantee insertion order."
+
+**************************How does HashMap work internally? ⭐⭐⭐⭐⭐
+This is very important.
+Interview Answer:
+"HashMap internally uses a hash table. When we insert a key-value pair, HashMap calculates the key's hash using hashCode(), determines the appropriate bucket, and stores the entry there. During retrieval, it uses the key's hash and equals() to locate the corresponding entry."
+
+***************************What is hashCode()?
+Interview Answer:
+"hashCode() is a method defined in Object that returns an integer hash value for an object. HashMap uses the key's hash information to determine where the entry should be stored."
+
+***************************How does HashMap identify duplicate keys?
+Interview Answer:
+"HashMap first uses the hash information to locate the appropriate bucket and then uses equals() to determine whether the key already exists. If the key is equal to an existing key, its value is replaced."
+
+************************entrySet() ⭐⭐⭐⭐⭐
+हा खूप important आहे.
+Interview Answer:
+"entrySet() returns a Set of key-value mappings contained in the map."
+
+Example:
+map.entrySet();
+
+Conceptually:
+101=Jay
+102=Rahul
+103=Amit
+
+****************HashMap vs HashSet ⭐⭐⭐⭐⭐
+
+| HashMap | HashSet |
+|---|---|
+| Key-value pairs | Individual elements |
+| Key unique | Elements unique |
+| Values can duplicate | Duplicates not allowed |
+| `put()` | `add()` |
+| `get(key)` | No `get()` |
+| `containsKey()` | `contains()` |
+
+
+****************************What is Hash Collision?
+
+Interview Answer:
+"A hash collision occurs when two different keys are mapped to the same bucket."
+
+***************************Why does HashMap use equals()?
+
+Interview Answer:
+"HashMap uses equals() to determine whether the key being searched is equal to a key already present in the bucket."
+
+***************************What happens if equals() is overridden but hashCode() is not?
+⭐⭐⭐⭐⭐ हा interviewer चा favourite question आहे.
+Interview Answer:
+"It can break the contract between equals() and hashCode(). Two objects that are equal may produce different hash codes, causing HashMap or HashSet to behave incorrectly, such as failing to find an existing key."
+
+***************************What is Initial Capacity?
+Interview Answer:
+"Initial capacity is the initial number of buckets allocated for the HashMap's internal table when it is initialized or first used."
+
+***************************What is Rehashing / Resizing?
+
+
+
+
+--------------------------------------------------------------------------------------------------
+
+
+Q6) Java LinkedHashMap
+
+A LinkedHashMap stores keys and values, and keeps them in the same order you put them in.
+
+Use LinkedHashMap when you want predictable iteration order (insertion order).
+
+***********Why do we use LinkedHashMap?
+Interview Answer
+"We use LinkedHashMap when we need key-value storage like HashMap and also need to preserve the insertion order."
+
+***********Syntax
+LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+
+
+************HashMap vs LinkedHashMap ⭐⭐⭐⭐⭐
+
+| Feature | HashMap | LinkedHashMap |
+|---|---|---|
+| Key-value | ✅ | ✅ |
+| Duplicate keys | ❌ | ❌ |
+| Duplicate values | ✅ | ✅ |
+| Insertion order | ❌ Guaranteed नाही | ✅ |
+| Null key | ✅ One | ✅ One |
+| Null values | ✅ | ✅ |
+| Hashing | ✅ | ✅ |
+| Performance | Generally slightly better | Slight overhead |
+| Main use | Fast key-based access | Fast access + insertion order |
+
+*******************Does LinkedHashMap allow duplicate keys?
+
+Interview Answer:
+"No, LinkedHashMap does not allow duplicate keys. If an existing key is inserted again, its value is replaced."
+
+*******************LRU Cache म्हणजे काय?    //जो data सर्वात जास्त वेळ वापरलेला नाही, तो आधी remove करायचा.
+
+Interview Answer:
+"LinkedHashMap can be used to implement an LRU cache because it can maintain entries in access order and can remove the least recently used entry."
+
+*******************HashMap vs LinkedHashMap — Scenario
+Interviewer:
+"I need unique keys and fast lookup. Order is not important. Which one?"
+
+Answer:
+HashMap
+
+Interviewer:
+"I need unique keys, fast lookup, and insertion order."
+
+Answer:
+LinkedHashMap
+
+Interviewer:
+"I need keys sorted."
+
+Answer:
+TreeMap
+
+
+**********************************What is the difference between HashMap and LinkedHashMap?
+
+तू सांग:
+"Both HashMap and LinkedHashMap store key-value pairs and provide efficient average-time lookup. The main difference is that HashMap does not guarantee any iteration order, whereas LinkedHashMap maintains insertion order by default. LinkedHashMap has some additional memory overhead to maintain that order."
+
+************************************
+
+HashMap
+   ↓
+Fast key-value access
+No guaranteed order
+
+
+LinkedHashMap
+   ↓
+Fast key-value access
+Insertion order
+
+
+TreeMap
+   ↓
+Key-value
+Sorted keys
+
+
+----------------------------------------------------------------------------
+
+Q7). What is TreeMap?
+Interview Answer
+"TreeMap is a Map implementation in Java that stores key-value pairs and maintains the keys in sorted order."
+
+TreeMap<Integer, String> map = new TreeMap<>();
+
+map.put(30, "A");
+map.put(10, "B");
+map.put(20, "C");
+
+Output:
+{10=B, 20=C, 30=A}
+
+****************2. Why do we use TreeMap?
+Interview Answer
+"We use TreeMap when we need key-value data with keys maintained in sorted order and when we need navigation operations such as finding the smallest, largest, higher, lower, ceiling, or floor key."
+
+उदा.:
+Marks → Student
+
+जर marks च्या ascending order मध्ये data पाहिजे असेल तर TreeMap useful आहे.
+
+***************Syntax
+TreeMap<Integer, String> map = new TreeMap<>();
+
+****************TreeMap internally काय वापरतो?
+⭐⭐⭐⭐⭐ Interview important.
+TreeMap internally Red-Black Tree वापरतो.
+Interview Answer:
+"TreeMap is implemented using a Red-Black Tree, which is a self-balancing binary search tree."
+
+त्यामुळे keys sorted राहतात.
+
+****************Important TreeMap Methods
+
+| Method | Use |
+|---|---|
+| `put()` | Key-value add/update |
+| `get()` | Key वरून value |
+| `remove()` | Entry remove |
+| `containsKey()` | Key आहे का |
+| `containsValue()` | Value आहे का |
+| `firstKey()` | Smallest key |
+| `lastKey()` | Largest key |
+| `higherKey()` | दिलेल्या key पेक्षा मोठी key |
+| `lowerKey()` | दिलेल्या key पेक्षा छोटी key |
+| `ceilingKey()` | key किंवा त्यापेक्षा मोठी |
+| `floorKey()` | key किंवा त्यापेक्षा छोटी |
+| `pollFirstEntry()` | Smallest entry remove + return |
+| `pollLastEntry()` | Largest entry remove + return |
+
+***********************Can TreeMap have duplicate keys?
+
+Interview Answer:
+"No, TreeMap does not allow duplicate keys. Inserting an existing key replaces its associated value."
+
+**********************Can TreeMap have duplicate values?
+Yes.
+map.put(10, "Java");
+map.put(20, "Java");
+***********************Can TreeMap contain null key?
+Natural ordering वापरताना null key generally allowed नाही
+
+Interview Answer:
+"TreeMap generally does not allow a null key when natural ordering is used, because it needs to compare keys. Null values are allowed." 
+
+**********************🔥 Interview Scenario
+Interviewer:
+"I have employee IDs and employee objects. I only need fast lookup. I don't care about order. Which Map?"
+
+Answer:
+"HashMap."
+
+Interviewer:
+"I need insertion order."
+
+Answer:
+"LinkedHashMap."
+
+Interviewer:
+"I need employee IDs sorted."
+
+Answer:
+"TreeMap."
+
+Interviewer:
+"I need to find the nearest key greater than a given key."
+
+Answer:
+"TreeMap, using higherKey()."
+
+
+------------------------------------------------------------------------------------------
+
+
+ALL COLLECTION USES IN REAL LIFE 
+
+ArrayList       → Shopping Cart → Laptop, Mouse, Keyboard-------Data वारंवार read/access करायचा 
+                                                                असेल
+
+LinkedList      → Playlist      → Song1, Song2, Song3---------Elements add/remove जास्त असतील
+
+***************************************
+
+HashSet         → Unique Emails → jay@gmail.com, amit@gmail.com------Duplicate नको असेल
+
+LinkedHashSet   → Search History → Pune, Mumbai, Delhi--------------Duplicate नको + insertion
+                                                                    order हवा
+
+TreeSet         → Prices        → 100, 200, 500, 1000---------------Unique + sorted data हवा
+
+**************************************
+
+HashMap         → Employee Data → 101 → Jay --------------------ID वरून data पटकन शोधायचा असेल
+
+LinkedHashMap   → Recent Products → 101 → Laptop--------------Key-Value + insertion order हवा
+
+TreeMap         → Student Marks → 101 → 80--------------------Key-Value + sorted keys हव्या
+
+******************************************
+
+Queue           → Bank Queue    → C1 → C2 → C3---------------First In → First Out (FIFO)
+
+PriorityQueue   → Hospital      → Critical → Normal----------Priority नुसार processing
+
+Deque           → Tasks         → Front ↔ Rear---------------दोन्ही ends वर add/remove
+
+ArrayDeque      → Stack/Queue   → Page1, Page2, Page3-------Fast Stack/Queue operations
+
+ConcurrentHashMap → Online Cache → UserId → UserData---------Multiple threads एकाच Map वर काम करत असतील
+Hashtable          → Legacy App  → Username → Data----------Mainly legacy applications मध्ये
+
+

@@ -1,0 +1,20 @@
+What is JDBC?
+JDBC हे Java application ला database शी connect करण्यासाठी आणि database मधील data insert, read, update आणि delete करण्यासाठी वापरले जाणारे Java API आहे.
+
+JDBC stands for Java Database Connectivity.
+***********
+1.Java Application                      //Java Application: कोणता data save किंवा fetch करायचा हे ठरवते.
+Java code आणि business logic
+
+2.JDBC API                            //JDBC API: Database operations करण्यासाठी Java interfaces आणि classes देते.
+Connection, SQL execution, ResultSet
+
+3.JDBC Driver                                     //JDBC Driver: संबंधित database शी communication करतो.
+Java आणि database मधील communication
+
+4.Database                                      //Database: Data प्रत्यक्ष store करतो.
+MySQL / PostgreSQL / Oracle
+
+***********Interview answer — English
+
+JDBC stands for Java Database Connectivity. It is a Java API that allows Java applications to connect to databases and execute SQL queries. It supports operations such as inserting, retrieving, updating, and deleting data. JDBC provides interfaces and classes such as Connection, PreparedStatement, and ResultSet to interact with a database.

@@ -1,0 +1,62 @@
+1. What is Multithreading?
+
+Multithreading is a feature in Java that allows multiple threads to execute concurrently within a single process, helping the application perform multiple tasks efficiently.
+
+2. What is Thread ?
+
+Thread is a subtask of process
+Thread is a lightWeight Process
+
+By default every Process has at least one task
+By default every Process has at least one thread
+
+
+2 Ways to create Thread
+
+1 : Thread class
+
+2 : Runnable interface
+
+
+******************Method 1: Thread class extend करून
+
+class MyThread extends Thread {
+
+    @Override
+    public void run() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(i);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        MyThread t1 = new MyThread();
+        t1.start();
+    }
+}
+
+***********interview प्रश्न: start() ऐवजी run() थेट call केल्यास काय होईल?
+
+उत्तर: run() थेट call केल्यास तो सामान्य method call असतो; नवीन thread सुरू होत नाही.
+
+--------------------------------------------------------------------------------------------------
+
+Method	                                                                       उपयोग
+start()	                                                              नवीन thread सुरू करतो
+run()	                                                              thread चे काम define करतो
+sleep()                                                               ठरावीक वेळ thread ला pause करतो
+join()	                                                              दुसऱ्या thread चे काम संपेपर्यंत थांबतो
+isAlive()	                                                          thread अजून चालू आहे का ते तपासतो
+currentThread()	                                                      सध्या execute होणारा thread मिळवतो
+
+
+---------------------------------------------------------------------------------------------------
+
+Q1. How many states are there in Java thread lifecycle?
+Answer: Java defines six thread states: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING and TERMINATED.
+
+Q3. Can a terminated thread be restarted?
+No. एका thread object वर पुन्हा start() call केल्यास IllegalThreadStateException येतो. नवीन execution साठी नवीन Thread object तयार करावा लागतो.

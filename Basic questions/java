@@ -152,10 +152,11 @@ JDK
 ├── JRE
 │   └── JVM
 │
-├── javac
-├── java
-├── javadoc
-├── jar
+├── javac                         //(.java) compile करून bytecode असलेली .class file तयार करतो.
+├── java                          //Application Launcher
+├── javadoc                  //Java source code मधील documentation comments (/** ... */) वापरून HTML documentation
+|                                   //  तयार करतो.
+├── jar              -------------------Java Archive Tool                     
 └── debugging/development tools
 
 
@@ -442,7 +443,7 @@ Default constructor: agar programmer ne koi constructor declare nahi kiya, to co
 
                              ClassName(dataType parameter1, dataType parameter2) {
                                        // initialization
-                              }
+                              } 
                     }     
 
  *********** Example :

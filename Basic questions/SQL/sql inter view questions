@@ -1,0 +1,108 @@
+
+https://gist.github.com/boubkhaled/3f13a01c17ebb6ec348cd94be44181ff
+
+
+
+Employee
+
+| id |            name |         department |          salary |              city |
+|---:                  |                 ---|              ---|           ---:|---|
+| 1 |             Amit |                 IT |           60000 |              Pune |
+| 2 |            Rahul |                 HR |           45000 |            Mumbai |
+| 3 |            Sneha |                 IT |           75000 |              Pune |
+| 4 |            Priya |              Sales |           50000 |            Mumbai |
+| 5 |            Kiran |                 IT |           60000 |            Nashik |
+
+
+Q1). What is SQL?                 //SQL → Database सोबत communicate करण्यासाठी language
+
+Interview Answer
+
+(SQL stands for Structured Query Language. It is used to communicate with relational databases and perform operations such as creating, reading, updating, and deleting data.)
+
+SQL stands for ‘Structured Query Language’ and is used for communicating with databases. According to ANSI, SQL is the standard query language used for maintaining relational database management systems (RDBMS) and also for performing different operations of data manipulation on different types of data using features of SQL. Basically, it is a database language that is used for the creation and deletion of databases, and it can be used to fetch and modify the rows of a table and also for multiple other things.
+
+***********Example:
+
+SELECT * FROM Employee;              ----------Employee table मधील सर्व records दाखव.
+
+***********Example databases:
+- MySQL
+- PostgreSQL
+- Oracle
+- SQL Server
+
+--------------------------------------------------------------------------------------------
+
+Q2). What is a Database?
+
+Answer
+A database is an organized collection of data that allows us to store, manage and retrieve information efficiently.
+
+**********************Example:
+Company database मध्ये:
+Employee
+Department
+Salary
+Project
+Attendance
+
+---------------------------------------------------------------------------------------------
+
+Q3) SQL vs MySQL -------//SQL = Language आहे. //MySQL=Database Management System आहे जे SQL वापरते
+
+Interview Answer
+SQL is a language used to interact with relational databases, whereas MySQL is a relational database management system that uses SQL.
+
+------------------------------------------------------------------------------------------
+
+Q$) SQL Commands चे Types ⭐⭐⭐⭐⭐----------------. What are the subsets of SQL?
+
+SQL Commands
+│
+├── DDL
+├── DML
+├── DQL
+├── DCL
+└── TCL
+
+***************DDL — Data Definition Language----------Database structure define करण्यासाठी.
+
+CREATE
+ALTER
+DROP
+TRUNCATE
+
+Example:
+CREATE TABLE Employee (
+    id INT,
+    name VARCHAR(50)
+);
+
+
+*************DML — Data Manipulation Language----------Data modify करण्यासाठी.
+
+INSERT
+UPDATE
+DELETE
+
+****Example:
+INSERT INTO Employee VALUES (1, 'Jay');
+
+************DQL — Data Query Language ---------------Data retrieve करण्यासाठी.
+
+SELECT
+
+****Example:
+SELECT * FROM Employee;
+
+************DCL — Data Control Language --------- Permissions.
+
+GRANT
+REVOKE
+
+************TCL — Transaction Control Language-------Transactions control करण्यासाठी.
+
+COMMIT
+ROLLBACK
+SAVEPOINT
