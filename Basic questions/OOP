@@ -243,8 +243,25 @@ class Puppy extends Dog {
     void play() {
         System.out.println("Playing");
     }
+
+
+    public class Main {
+    public static void main(String[] args) {
+
+        Puppy p = new Puppy();
+
+        p.eat();
+        p.bark();
+        p.play();
+    }
 }
-    
+
+
+*************Output
+Eating
+Barking
+Playing
+
 ******************************************************************
 
 3) Hierarchical Inheritance (Ek parent → multiple children.)
@@ -295,7 +312,8 @@ class C extends A, B {              // ❌ Not allowed
 
 ****************************Kyu?
 
-Ambiguity problem ho sakti hai.
+Ambiguity problem ho sakti hai.  -------------------Java मध्ये समजा दोन methods आहेत आणि 
+                                                  compiler ला कोणती method call करायची हे स्पष्ट होत नाही, तर ambiguity problem निर्माण होऊ शकते
 
 -------------------------------------------------------------------------------
 
@@ -446,11 +464,42 @@ public class Main {
         Animal a = new Dog();   // Upcasting                //Animal → reference type (Parent)
                                                           //Dog → actual object (Child)
         a.sound();                     //Child object is stored/referenced by Parent reference.
+
+        a.bark();                     // Compilation Error
     }                                     //Upcasting is generally automatic.
+
+
 }
 
 *****************Output
 Animal makes sound
+
+
+Why can't we call the child class method using a parent reference?
+
+English answer:
+
+"Because the compiler checks the reference type. If the method is not declared in the parent class, we cannot access it directly using the parent reference."
+
+
+
+Q Why do we use upcasting and downcasting?
+
+"Upcasting is used to achieve runtime polymorphism and handle different child objects using a common parent reference. Downcasting is used when we need to access child-specific methods or properties that are not available in the parent reference."
+
+-------------------------------------------------------
+
+
+
+Polymorphism: एकाच parent reference मधून वेगवेगळ्या child objects ना handle करता येते.
+
+
+
+Loose coupling: Code एखाद्या specific child class वर कमी अवलंबून राहतो.
+
+
+
+Code reusability: एकाच method मध्ये अनेक child types handle करता येतात.
 
 
 
@@ -487,6 +536,7 @@ Animal makes sound
 Dog barks
 
 
+जेव्हा आपल्याला child class मधील specific methods किंवा features वापरायचे असतात, तेव्हा Downcasting उपयोगी पडते.
 
 
 **************************************Interview answer
@@ -561,7 +611,7 @@ public class Main {
         System.out.println(c.add(10, 20, 30));
 
         System.out.println(c.add(10.5, 20.5));
-    }
+     }
 }
 
 *************************Output:
@@ -612,6 +662,8 @@ overriding called runtime polymorphism
 
 Because when an overridden method is called through a parent reference, the implementation that executes is determined at runtime based on the actual object.
 
+Overriding ला Runtime Polymorphism म्हणतात कारण कोणत्या class ची method execute होणार हे JVM runtime ला ठरवते.
+
 *************************Simple trick:
 
 Same method + parent-child + child gives new implementation = Overriding
@@ -649,7 +701,17 @@ public class Main {
 *******************************Output:
 Dog barks
 
+*************
 
+Compiler पाहतो की Animal मध्ये sound() method आहे का? होय.
+
+पण Runtime ला JVM actual object तपासते. Actual object Dog असल्यामुळे Dog ची overridden sound() method execute होते.
+3. याला Runtime Polymorphism का म्हणतात?
+- Poly = Many
+- Morphism = Forms
+एकाच method call चे वेगवेगळे behavior असू शकतात.
+
+कोणते behavior execute होईल हे Runtime ला actual object वरून ठरते.
 --------------------------------------------------------------------
 
 Q12)  Overloading vs Overriding

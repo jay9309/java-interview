@@ -364,7 +364,9 @@ throws is used in a method declaration to declare that the method may throw one 
 
 --------------------------------------------------------------------------------------
 
-Q15) Exception Propagation ⭐⭐⭐⭐
+Q15) Exception Propagation ⭐⭐⭐⭐  What is exception propagation?
+
+When an exception is thrown and not caught in the current method, it propagates up the call stack to the caller, and so on, until caught or the JVM terminates.
 
 ***************** Suppose:
 main()

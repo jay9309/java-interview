@@ -1,18 +1,24 @@
 Collection Framework Hierarchy ⭐⭐⭐⭐⭐
 
-                       Iterable
-                          |
-                      Collection
-                          |
-          ┌───────────────┼───────────────┐
-          ↓               ↓               ↓
-        List              Set            Queue
-          |                |               |
-    ┌─────┼─────┐     ┌────┼────┐     ┌───┴────┐
-    ↓     ↓     ↓     ↓         ↓     ↓        ↓
- ArrayList LinkedList Vector  HashSet LinkedHashSet PriorityQueue
-                                      |
-                                   TreeSet
+
+Iterable (Interface)
+    |
+    ↓
+Collection (Interface)
+    |
+    |--------------------|--------------------|
+    ↓                    ↓                    ↓
+   List                 Set                 Queue
+ (Interface)          (Interface)          (Interface)
+    |                    |                    |
+    |                    |                    |
+    ├── ArrayList        ├── HashSet          ├── PriorityQueue
+    ├── LinkedList       ├── LinkedHashSet    └── LinkedList
+    └── Vector           └── SortedSet
+         |                    |
+         └── Stack            └── NavigableSet
+                                   |
+                                   └── TreeSet
 
 
 
@@ -25,13 +31,23 @@ Map
  ├── TreeMap
  └── Hashtable
 
+****************
+
+<> याला Diamond Operator म्हणतात.
+
+यामुळे उजव्या बाजूला पुन्हा Integer लिहिण्याची गरज नाही. Compiler डाव्या बाजूवरून type समजतो.
  ------------------------------------------------------------------------------------------
 
  Q1) What is collection ?
 
 *********************Interview answer
 
-Collection is a framework in Java used to store and manipulate a group of objects efficiently. It provides ready-made data structures such as List, Set and Queue, along with classes like ArrayList, HashSet and PriorityQueue.
+Collection is a framework in Java used to store and manipulate a group of objects efficiently. 
+
+Java provides classes and interfaces to group no of objects together
+called the Collection Framework.
+
+It provides ready-made data structures such as List, Set and Queue, along with classes like ArrayList, HashSet and PriorityQueue.
 
 ****************Example :
 
@@ -188,6 +204,101 @@ Q6) ArrayList vs Array
 | List                          | `list.size()` |
 
 
+******************************************
+
+Q) What is fail fast ?
+
+"Fail-Fast is a mechanism in Java that detects structural modifications in a collection during iteration and throws ConcurrentModificationException."
+
+समजा आपण ArrayList मधील elements एकेक करून access करत आहोत आणि त्याच वेळी Iterator च्या बाहेरून List मध्ये add किंवा remove केले, तर Iterator modification detect करतो आणि ConcurrentModificationException देतो. यालाच Fail-Fast म्हणतात.
+
+*********Example समजून घे
+List<Integer> list = new ArrayList<>();
+
+list.add(10);
+list.add(20);
+list.add(30);
+
+for (Integer val : list) {
+    if (val == 20) {
+        list.remove(val);                        //Fail-Fast Example
+    }                                            //ConcurrentModificationException
+}
+
+*******************2. Iterator वापरून remove करणे
+
+
+Iterator<Integer> itr = numbers.iterator();
+
+while (itr.hasNext()) {
+    Integer val = itr.next();
+
+    if (val == 30) {
+        itr.remove();        //Correct Way
+    }
+}
+
+System.out.println(numbers);1. Normal For Loop
+for (int i = 0; i < numbers.size(); i++) {
+    System.out.println(numbers.get(i));
+}
+
+
+कधी वापरायचा?
+- Index पाहिजे असेल तेव्हा.
+- Specific position वरील element access करायचा असेल तेव्हा.
+- Element update करायचा असेल तेव्हा.
+उदा. numbers.get(2) म्हणजे index 2 वरील element.
+
+
+
+---------------------------------------------------------------------------------------
+
+Q) jr for loop for each loop asun pn apn iterator ka vapto , karn work tr same ch ahe ki printing ch ?
+
+1. Normal For Loop
+for (int i = 0; i < numbers.size(); i++) {
+    System.out.println(numbers.get(i));
+}
+
+
+कधी वापरायचा?
+- Index पाहिजे असेल तेव्हा.
+- Specific position वरील element access करायचा असेल तेव्हा.
+- Element update करायचा असेल तेव्हा.
+उदा. numbers.get(2) म्हणजे index 2 वरील element.
+
+***********************
+
+2. For-each Loop
+for (Integer val : numbers) {
+    System.out.println(val);
+}
+
+
+कधी वापरायचा?
+- फक्त सर्व elements access करायचे असतील तेव्हा.
+- Code कमी आणि सोपा ठेवायचा असेल तेव्हा.
+- Index ची गरज नसेल तेव्हा.
+
+************************
+
+3. Iterator
+Iterator<Integer> itr = numbers.iterator();
+
+while (itr.hasNext()) {
+    Integer val = itr.next();
+
+    if (val == 30) {
+        itr.remove();
+    }
+}
+
+
+कधी वापरायचा?
+- Collection मधील elements एकेक करून access करण्यासाठी.
+- Iteration चालू असताना सुरक्षितपणे elements remove करण्यासाठी.
+- Iterator च्या hasNext() आणि next() वर control ठेवण्यासाठी.
 ---------------------------------------------------------------------------------------------
 
 Q7)  What is LinkedList?
@@ -579,8 +690,8 @@ LinkedHashSet<DataType> variableName = new LinkedHashSet<>();
 
 *******************************HashSet vs LinkedHashSet
 
-| Feature                    | HashSet                    | LinkedHashSet                      |
-|                      ---|                            ---|                                   ---|
+| Feature                 | HashSet                       | LinkedHashSet                       |
+|                      ---|                            ---|                                  ---|
 | Duplicate               | ❌                           | ❌                                   |
 | Insertion order         | ❌ No guarantee              | ✅ Maintains                         |
 | Index                   | ❌                           | ❌                                   |
@@ -727,14 +838,14 @@ Conceptually:
 
 ****************HashMap vs HashSet ⭐⭐⭐⭐⭐
 
-| HashMap | HashSet |
-|---|---|
-| Key-value pairs | Individual elements |
-| Key unique | Elements unique |
-| Values can duplicate | Duplicates not allowed |
-| `put()` | `add()` |
-| `get(key)` | No `get()` |
-| `containsKey()` | `contains()` |
+| HashMap                        |                                              HashSet |
+|                             ---|                                                    ---|
+| Key-value pairs                |                                  Individual elements |
+| Key unique                     |                                      Elements unique |
+| Values can duplicate           |                               Duplicates not allowed |
+| `put()`                        |                                              `add()` |
+| `get(key)`                     |                                           No `get()` |
+| `containsKey()`                |                                         `contains()` |
 
 
 ****************************What is Hash Collision?

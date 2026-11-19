@@ -1,6 +1,194 @@
+1. What is Thread Life Cycle in Java?
+
+***************Interview Answer (Simple English):
+
+"The Thread Life Cycle represents the different states through which a thread passes from its creation to its termination.
+
+In Java, a thread has six states: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED."
+
+
+**************
+
+
+ ┌─────┐   start()    ┌──────────┐
+ │ NEW │ ──────────▶ │ RUNNABLE │ ─── run() completes ──▶ TERMINATED
+ └─────┘              └────┬─────┘
+                           │
+          ┌────────────────┼────────────────┐
+          ▼                ▼                ▼
+      ┌─────────┐     ┌─────────┐     ┌───────────────┐
+      │ BLOCKED │     │ WAITING │     │ TIMED_WAITING │
+      └────┬────┘     └────┬────┘     └───────┬───────┘
+           │               │                  │
+       Lock मिळाला     notify()/join      Time expires
+           │               │                  │
+           └───────────────┴──────────────────┘
+                           │
+                           ▼
+                       RUNNABLE
+
+
+1. NEW State
+
+"When a thread object is created but the start() method has not been called, it is in the NEW state."
+MyThread t1 = new MyThread();
+
+
+मराठी: Thread चा object तयार झाला आहे, पण thread अजून सुरू झालेला नाही.
+
+*******************************
+
+2. RUNNABLE State
+
+"When we call the start() method, the thread enters the RUNNABLE state."
+t1.start();
+
+
+मराठी: Thread सुरू होण्यासाठी तयार आहे. CPU मिळाल्यावर तो execute होतो. Java मध्ये RUNNABLE state मध्ये ready आणि running या दोन्ही परिस्थितींचा समावेश होतो.
+
+*******************************
+
+3. BLOCKED State
+
+"When a thread tries to enter a synchronized method or block but cannot acquire the lock because another thread already holds it, the thread enters the BLOCKED state."
+
+मराठी: दुसऱ्या thread कडे lock असल्यामुळे आपल्याला lock मिळेपर्यंत thread थांबतो.
+
+******************************
+
+4. WAITING State
+
+"A thread enters the WAITING state when it waits indefinitely for another thread to perform a particular action."
+
+Example:
+t1.wait();
+
+
+मराठी: दुसऱ्या thread कडून notify() किंवा notifyAll() मिळेपर्यंत wait करतो.
+
+*********************************
+
+5. TIMED_WAITING State
+
+"A thread enters the TIMED_WAITING state when it waits for a specific period of time."
+
+Example:
+Thread.sleep(2000);
+
+
+मराठी: Thread 2 seconds साठी pause होतो. वेळ संपल्यानंतर तो पुन्हा runnable होऊ शकतो.
+
+*********************************
+
+6. TERMINATED State
+
+"A thread enters the TERMINATED state when its run() method completes execution."
+
+मराठी: Thread चे काम पूर्ण झाले की तो terminate होतो.
+
+--------------------------------------------------------------------------------
+
+1. What is the difference between WAITING and TIMED_WAITING?
+Interview Answer (English):
+
+"WAITING is a state in which a thread waits indefinitely until another thread performs a specific action. TIMED_WAITING is a state in which a thread waits for a specified amount of time."
+
+Marathi Explanation:
+- WAITING: Thread किती वेळ थांबणार याची limit नसते. दुसऱ्या thread कडून notification किंवा action मिळेपर्यंत थांबतो.
+- TIMED_WAITING: Thread ठरावीक वेळेसाठी थांबतो. वेळ पूर्ण झाल्यावर पुन्हा RUNNABLE होऊ शकतो.
+
+***************Example:
+// WAITING
+obj.wait();
+
+// TIMED_WAITING
+Thread.sleep(2000);
+
+-----------------------------------------------------------------------------------
+
+2. What is the difference between BLOCKED and WAITING?
+Interview Answer (English):
+
+"BLOCKED means a thread is waiting to acquire a monitor lock, whereas WAITING means a thread is waiting indefinitely for another thread to perform a specific action."
+
+Marathi Explanation:
+- BLOCKED: दुसऱ्या thread ने synchronized lock घेतलेला आहे. तो lock release करेपर्यंत आपला thread थांबतो.
+- WAITING: दुसऱ्या thread कडून काही action होण्याची वाट पाहतो.
+
+**********Example:
+// BLOCKED
+synchronized(obj) {
+    System.out.println("Hello");
+}
+
+// WAITING
+synchronized(obj) {
+    obj.wait();
+}
+
+---------------------------------------------------------------------------------
+
+5. What is the purpose of sleep() and wait()?
+Interview Answer (English):
+
+"Both sleep() and wait() are used to pause thread execution. The sleep() method pauses a thread for a specified time without releasing the lock, whereas the wait() method pauses a thread until it receives notification and releases the object's monitor lock."
+
+Marathi Explanation:
+- sleep() – Thread ठरावीक वेळेसाठी pause होतो. पण त्याच्याकडे असलेला lock release करत नाही.
+- wait() – Thread दुसऱ्या thread कडून notification मिळेपर्यंत थांबतो आणि monitor lock release करतो.
+
+**************Example:
+// sleep()
+Thread.sleep(2000);
+
+// wait()
+synchronized(obj) {
+    obj.wait();
+}
+
+----------------------------------------------------------------------------------------
+
+
+1. What is Multitasking?
+Interview Answer:
+
+"Multitasking is the ability of an operating system to execute multiple tasks or programs concurrently."
+
+मराठी Explanation:
+
+जेव्हा Computer एकाच वेळी अनेक applications किंवा tasks हाताळतो, त्याला Multitasking म्हणतात.
+
+Example:
+- आपण Chrome वर YouTube पाहतोय.
+- Background मध्ये गाणं चालू आहे.
+- दुसरीकडे File Download होत आहे.
+ही सर्व कामे एकाच वेळी चालू असल्यासारखी दिसतात.
+
+
+------------------------------------------------------------------------
+
+2. What is Multiprocessing?
+
+"Multiprocessing is the ability of a computer system to use two or more processors or CPU cores to execute multiple processes simultaneously."
+
+मराठी Explanation:
+
+जेव्हा Computer मध्ये दोन किंवा अधिक CPU cores वापरून वेगवेगळे processes एकाच वेळी execute केले जातात, त्याला Multiprocessing म्हणतात.
+
+
+******************रोजच्या जीवनातील उदाहरण
+
+समजा, तुझ्या घरी 3 लोक आहेत आणि घरात 3 वेगवेगळी कामं आहेत:
+- पहिली व्यक्ती – जेवण बनवते.
+- दुसरी व्यक्ती – घर साफ करते.
+- तिसरी व्यक्ती – कपडे धुते.
+-------------------------------------------------------------------------
+
 1. What is Multithreading?
 
-Multithreading is a feature in Java that allows multiple threads to execute concurrently within a single process, helping the application perform multiple tasks efficiently.
+Multithreading is a feature in Java that allows multiple threads to execute concurrently within a single process, helping the application perform multiple tasks efficiently
+
+for an instance (like washing dishes, then cooking, then cleaning), you can do multiple things that seem to happen at once .
 
 2. What is Thread ?
 
@@ -38,25 +226,213 @@ public class Main {
     }
 }
 
+***********इथे MyThread ही class Java च्या built-in Thread class ला inherit करते.
+
+आणि Thread class मध्ये आधीपासून दोन methods आहेत:
+- start() – नवीन thread सुरू करते.
+- run() – thread ने execute करायचा code असतो.
+
+
+
 ***********interview प्रश्न: start() ऐवजी run() थेट call केल्यास काय होईल?
 
 उत्तर: run() थेट call केल्यास तो सामान्य method call असतो; नवीन thread सुरू होत नाही.
+
+run() directly call केल्यास नवीन thread तयार होत नाही.
+
+तो code सध्याच्या main thread वरच execute होतो.
+
+start() call केल्यास नवीन thread तयार होतो आणि त्यातून run() execute होते.
+
+
+************Can we call start() method twice on the same Thread object?
+
+एकाच Thread object वर start() दोनदा call करता येत नाही. दुसऱ्यांदा call केल्यास IllegalThreadStateException येतो.
+MyThread t1 = new MyThread();
+
+t1.start();
+t1.start(); // IllegalThreadStateException
+
+
+************What is the difference between start() and run()?
+
+"The start() method is used to start a new thread. It internally calls the run() method. The run() method contains the task that needs to be executed by the thread.
 
 --------------------------------------------------------------------------------------------------
 
 Method	                                                                       उपयोग
 start()	                                                              नवीन thread सुरू करतो
 run()	                                                              thread चे काम define करतो
-sleep()                                                               ठरावीक वेळ thread ला pause करतो
-join()	                                                              दुसऱ्या thread चे काम संपेपर्यंत थांबतो
-isAlive()	                                                          thread अजून चालू आहे का ते तपासतो
+sleep()                                                               ठरावीक वेळ thread ला pause 
+                                                                      करतो
+join()	                                                              दुसऱ्या thread चे काम 
+                                                                      संपेपर्यंत थांबतो
+isAlive()	                                                          thread अजून चालू आहे का ते 
+                                                                      तपासतो
 currentThread()	                                                      सध्या execute होणारा thread मिळवतो
 
 
+
+
+
+
+
+State                                                                  	Description
+NEW                                                   	Thread created but start() not called
+RUNNABLE                                            	Executing or ready to execute (waiting 
+                                                        for CPU)
+BLOCKED                                             	Waiting to acquire a monitor lock
+WAITING                                             	Waiting indefinitely — wait(), join() 
+                                                          with no timeout
+TIMED_WAITING                                         	Waiting for a specified time — sleep(ms), 
+                                                        wait(ms)
+TERMINATED	                                            run() has completed
+
+
 ---------------------------------------------------------------------------------------------------
+
+3. What is a Thread in Java?
+
+A thread is the smallest unit of work in a program. It's like a path that a program follows to do something.
+
+Threads can work independently. 
+Since threads share memory, they can easily communicate with each other.
+
+Thread States
+
+
+flowwwww:
+
+"When a thread object is created, it enters the NEW state. After calling start(), it enters the RUNNABLE state. During execution, it may enter BLOCKED, WAITING, or TIMED_WAITING states. Finally, when the run() method completes, it enters the TERMINATED state."
+
+
+----------------------------------------------------------------------------------------------------
 
 Q1. How many states are there in Java thread lifecycle?
 Answer: Java defines six thread states: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING and TERMINATED.
 
 Q3. Can a terminated thread be restarted?
 No. एका thread object वर पुन्हा start() call केल्यास IllegalThreadStateException येतो. नवीन execution साठी नवीन Thread object तयार करावा लागतो.
+
+
+---------------------------------------------------------------------------------------------------------
+
+4. Race Condition म्हणजे काय?
+
+Definition: A race condition occurs when multiple threads access and modify shared data concurrently, and the result depends on the timing or order of their execution.
+
+मराठीत: दोन किंवा अधिक threads एकाच data मध्ये एकाच वेळी बदल करत असतील आणि त्यांच्या execution च्या क्रमामुळे चुकीचा result येऊ शकत असेल, तर त्याला Race Condition म्हणतात.
+
+
+--------------------------------------------------------------------------------
+
+Q1. What is synchronization in Java?
+
+Synchronization is a way to control multiple threads so they can safely use shared resources.
+
+
+why we use synchonization?
+
+Why needed:
+
+Prevents race conditions (when the result depends on the order/timing of thread execution).
+
+Ensures only one thread at a time can access a shared resource.
+
+Threads & Shared Resources   //एखादा variable, object, file किंवा database resource ज्याचा वापर
+                              //  अनेक threads करत असतात, त्याला Shared Resource म्हणतात.
+
+Thread = an independent path of execution in a program.
+
+
+************2. Marathi Explanation
+समजा दोन threads एकाच variable ला एकाच वेळी access करत आहेत आणि त्याची value change करत आहेत.
+
+त्यामुळे चुकीचा output येऊ शकतो. याला Race Condition म्हणतात.
+
+ही समस्या टाळण्यासाठी Synchronization वापरतो.
+
+म्हणजेच एका वेळी फक्त एक thread synchronized code execute करू शकतो.
+
+***************Interview Answer (Simple English)
+
+"Synchronization in Java is a mechanism used to control access to shared resources by multiple threads. It ensures that only one thread can access a synchronized method or block at a time, preventing data inconsistency and race conditions."
+
+
+******************Example: two threads incrementing the same variable at the same time.
+
+Without synchronization → incorrect values (lost updates).
+
+How Synchronization Works
+
+Only one thread at a time can execute inside a synchronized block/method.
+
+Other threads must wait until the lock is released.
+
+----------------------------------------------------------------------------
+
+Q2. Does synchronized make the entire program single-threaded?
+
+No. It coordinates access to the synchronized sections that use the same lock. Other independent code can still execute concurrently.
+
+Q3. What is the difference between synchronized method and synchronized block?
+
+A synchronized method locks for the method's synchronized execution; a synchronized block lets us specify a smaller critical section and the lock object.
+
+Q4. Can synchronization cause performance problems?
+
+Yes. Threads may have to wait for locks, reducing concurrency. Poor lock design can also contribute to deadlocks.
+
+Q5. Does synchronized guarantee that threads execute in a particular order?
+
+No. It provides mutual exclusion and memory-visibility guarantees, but it does not guarantee a specific order among waiting threads.
+
+
+-----------------------------------------------------------------------------------------------
+
+4. Deadlock म्हणजे काय?
+Definition: A deadlock occurs when two or more threads wait indefinitely for resources or locks held by one another.
+
+मराठीत: दोन threads एकमेकांकडील lock सुटण्याची वाट पाहत असतात आणि कोणताही पुढे जाऊ शकत नाही, तेव्हा deadlock होतो.
+Real-life example
+समज, एका अरुंद रस्त्यावर दोन गाड्या समोरासमोर आल्या.
+- गाडी A ला पुढे जाण्यासाठी गाडी B ने जागा द्यावी लागेल.
+- गाडी B ला पुढे जाण्यासाठी गाडी A ने जागा द्यावी लागेल.
+- दोघेही मागे हटत नाहीत.
+म्हणजेच दोन्ही अडकल्या आहेत. हे deadlock सारखे आहे.
+
+
+Q4. Can sleep() release a synchronized lock?
+
+No. Thread.sleep() मुळे thread काही काळ थांबतो, पण तो monitor lock सोडत नाही. Object.wait() मात्र योग्य वापरात त्या object चा monitor lock सोडतो.
+
+
+
+Q5. How do you avoid it?
+
+1. Always acquire multiple locks in the same fixed order
+2. Use tryLock() with timeout from java.util.concurrent.locks
+3. Minimize scope of synchronized blocks
+4. Prefer java.util.concurrent utilities over raw synchronized
+
+
+----------------------------------------------------------------------------------------------------
+
+Part 3: wait(), notify() आणि notifyAll()
+
+4. Interview questions
+Q1. Why must wait() be called inside synchronized code?
+
+Because the calling thread must own the object's monitor; otherwise, Java throws IllegalMonitorStateException.
+
+Q2. What is the difference between notify() and notifyAll()?
+
+notify() एका waiting thread ला signal देतो, तर notifyAll() त्या monitor वर wait करणाऱ्या सर्व threads ना signal देतो.
+
+Q3. Can wait() throw an exception?
+
+Yes. It can throw InterruptedException, and it throws IllegalMonitorStateException if the thread does not own the monitor.
+
+Q4. Does notify() release the lock immediately?
+
+No. The notifying thread releases the monitor when it exits the synchronized section or method.

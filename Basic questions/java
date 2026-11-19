@@ -19,6 +19,17 @@ JVM
    ↓
 Windows / Linux / Mac
 
+
+--------------------------------------------------------------------------------------------
+
+1. Why is Java secure?
+Java is secure because:
+1. No Explicit Pointers: Java does not allow direct pointer manipulation like C/C++. This reduces memory-related security risks.
+2. Bytecode Verification: JVM verifies compiled bytecode before executing it and checks whether it follows Java's rules.
+3. ClassLoader: It loads classes into the JVM and provides separation between classes from different sources.
+4. Access Modifiers: private, protected, and public control access to classes, variables, and methods.
+5. Automatic Garbage Collection: JVM automatically manages memory and reduces risks associated with manual memory management.
+6. Exception Handling: Helps handle runtime errors safely instead of allowing unexpected failures to go unmanaged.
 -----------------------------------------------------------------------------------------------
 
 Q2) Why is Java platform independent?
@@ -38,6 +49,35 @@ Same Java bytecode
 Windows    Linux       Mac
  JVM        JVM         JVM
 
+ ------------------------------------------------------------------------------------
+
+
+ Features of java :
+
+ 
+ Simple: Java has easy syntax and removes complex features like explicit pointers.
+
+Object-Oriented: Java is based on classes and objects and supports the four OOP principles.
+
+Platform Independent: Java follows WORA (Write Once, Run Anywhere) using bytecode and JVM.
+
+Secure: Java provides bytecode verification, access control, and security APIs.
+
+Robust: Java provides exception handling, garbage collection, and strong type checking.
+
+Multithreaded: Java allows multiple tasks to execute concurrently using threads.
+
+Portable: Java programs can run on different operating systems with minimal or no changes.
+
+Architecture Neutral: Java bytecode is independent of any specific processor architecture.
+
+High Performance: Java uses JIT compilation to improve execution speed.
+
+Distributed: Java supports network-based applications using networking APIs.
+
+Dynamic: Java can load and link classes at runtime.
+
+Interpreted and Compiled: Java compiler converts source code into bytecode, which JVM interprets or JIT-compiles.
  --------------------------------------------------------------------------------------
 
  Q3) What is JVM?
@@ -135,6 +175,8 @@ JVM = Bytecode ko execute karta hai
 Q5) What is JRE?       //Java application ko RUN karna.
 
 JRE stands for Java Runtime Environment. It provides the environment and libraries required to run Java applications. It contains the JVM and Java class libraries.
+
+For example, packages like java.lang, java.util, java.io, and java.sql provide predefined classes and methods."
 
 JRE does not contain development tools like the Java compiler. Its main purpose is to provide the runtime environment required to execute Java applications.
 
@@ -462,6 +504,75 @@ Default constructor: agar programmer ne koi constructor declare nahi kiya, to co
         ************Object:               
                              Student s1 = new Student("Jay", 22);
 
+***************************************
+
+Q.) can we override constructor ?
+
+No, we cannot override a constructor in Java.
+
+1. Why can't we override a constructor?
+Because a constructor is not inherited by the child class.
+
+Method overriding requires inheritance, but constructors are not inherited. Therefore, constructor overriding is not possible.
+
+
+
+**********2. Example
+
+class Animal {
+    Animal() {
+        System.out.println("Animal constructor");
+    }
+}
+
+class Dog extends Animal {
+    Dog() {
+        System.out.println("Dog constructor");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+    }
+}
+
+***********Output:
+Animal constructor
+Dog constructor
+
+
+Why?
+
+When we create a Dog object:
+1. Parent constructor executes first.
+2. Child constructor executes second.
+
+******************************
+
+********3. Can we overload a constructor?
+Yes
+Constructor overloading is possible'.
+
+************
+
+class Student {
+
+    Student() {
+        System.out.println("Default constructor");
+    }
+
+    Student(int id) {
+        System.out.println("Parameterized constructor");
+    }
+}
+
+************5. Important Interview Difference
+Constructor                                   	Method
+Cannot be overridden	                    Can be overridden
+Can be overloaded	                        Can be overloaded
+Not inherited	                            Inherited (subject to access rules)
+Name must match class name	                Can have any valid method name
 
 ---------------------------------------------------------------------------------------------
 
@@ -492,6 +603,114 @@ this.name refers to the instance variable of the current object, while name refe
                  this.name  → class ka instance variable / field
                  name       → constructor ka parameter
 
+
+**********************
+
+Q) When do we use the super keyword in Java?
+
+"We use the super keyword to access the immediate parent class variables, methods, and constructors from the child class."
+
+मराठी अर्थ: Parent class चे variables, methods आणि constructor Child class मधून access करण्यासाठी super keyword वापरतो.
+
+*********************
+
+1. To access parent class variable
+जेव्हा Parent आणि Child class मध्ये same variable name असतो, तेव्हा Parent class चा variable access करण्यासाठी super वापरतो.
+class Animal {
+    String name = "Animal";
+}
+
+class Dog extends Animal {
+    String name = "Dog";
+
+    void display() {
+        System.out.println(name);
+        System.out.println(super.name);
+    }
+}
+
+
+Output:
+Dog
+Animal
+
+
+- name → Child class variable.
+- super.name → Parent class variable.
+
+**********************
+
+2. To call parent class method
+जेव्हा Child class मध्ये Parent class ची method override केली जाते आणि तरीही Parent class ची method call करायची असते, तेव्हा super वापरतो.
+class Animal {
+    void sound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+
+        super.sound();
+    }
+}
+
+
+Output:
+Dog barks
+Animal makes sound
+
+
+इथे super.sound() Parent class मधील method call करते.
+
+************************
+
+3. To call parent class constructor
+Child class मधून Parent class चा constructor call करण्यासाठी super() वापरतो.
+class Animal {
+    Animal() {
+        System.out.println("Parent constructor");
+    }
+}
+
+class Dog extends Animal {
+    Dog() {
+        super();
+        System.out.println("Child constructor");
+    }
+}
+
+
+Output:
+Parent constructor
+Child constructor
+
+======================================
+
+What is the difference between this and super in Java?
+
+"this keyword refers to the current class object, whereas super keyword refers to the immediate parent class. Both are used to access variables, methods, and constructors."
+
+****************1. Example समजून घे
+class Animal {
+    String name = "Animal";
+}
+
+class Dog extends Animal {
+    String name = "Dog";
+
+    void display() {
+        System.out.println(this.name);
+        System.out.println(super.name);
+    }
+}
+
+
+Output:
+Dog
+Animal
 -----------------------------------------------------------------------------------------
 
 Q13) "How does a constructor work?" "Where is a constructor stored in memory?"
@@ -506,6 +725,9 @@ interview Answer :
                
                When an object is created, memory is allocated in the heap and the constructor is automatically executed to initialize the object's instance variables. When a method is called, its execution uses a stack frame.
 
+
+               "Constructor is stored as bytecode in the .class file. When the class is loaded, its metadata is stored in the JVM's runtime memory. The constructor executes when an object is created."
+
 -------------------------------------------------------------------------------------------
 
 Q14) “What is a method?” What Is a Function?
@@ -513,6 +735,7 @@ Q14) “What is a method?” What Is a Function?
 Functions (also known as methods in Java) are named blocks of code designed to perform specific tasks. They encapsulate a sequence of instructions, allowing you to call the same logic from multiple places in 
 
 A method is a block of code that defines the behavior or functionality of an object. It is executed when we explicitly call it.
+
 
 
 Q ) Why Use Functions?
@@ -542,7 +765,7 @@ Facilitate Testing You can test each function independently, ensuring correctnes
 
 Q15) What is static ?
 
-The static keyword is used for members that belong to the class , rather than to individual objects. A static member is associated with the class, so we generally don't need to create an object to access it. We can access it directly using the class name.
+The static keyword is used for members that belong to the class , rather than to individual objects. A static member is associated with the class, so we generally don't need to create an object to access it. We can access it directly using the class name'.
 
 use for memory manegment 
 
@@ -606,9 +829,31 @@ class Student {
 
 Student.showCollege();
 
+
+
+-----------------------------------------------------------------------------
+
+Q16. What are access modifiers in Java?
+
+Modifier	Same class	Same package	Subclass (other package)	Other packages
+private	       Yes	        No	             No                     	No
+(default)	   Yes	        Yes              No	                        No
+protected	   Yes	        Yes	             Yes	                    No
+public	       Yes	        Yes	             Yes	                    Yes
+
 --------------------------------------------------------------------------------
 
-Q16) Why is OOP important in Java?
+Q) what is type casting?
+
+Type Casting in Java means converting a value from one data type to another data type.
+
+In simple words, changing one data type into another is called Type Casting.
+
+There are two main types of Type Casting in Java.
+
+--------------------------------------------------------------------------------
+
+Q17) Why is OOP important in Java?
 
 OOP stands for Object-Oriented Programming.
 
@@ -635,5 +880,7 @@ Class + Object
 
 
  -------------------------------------------------------------------------------
+
+
 
 

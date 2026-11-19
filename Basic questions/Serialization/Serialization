@@ -1,0 +1,229 @@
+1. What is Serialization?
+Serialization is the process of converting a Java object into a byte stream so that it can be saved in a file or transferred over a network.
+
+***Serializable हा Marker Interface आहे. म्हणजे यामध्ये कोणतीही method implement करावी लागत नाही.
+
+आपल्याकडे Java मध्ये एखादा Object आहे. त्या Object मधील data आपण File मध्ये Save करू शकतो किंवा दुसऱ्या ठिकाणी पाठवू शकतो. या प्रक्रियेला Serialization म्हणतात.
+
+
+********3. Serialization in Java – Practical Program
+
+आपण Serialization करण्यासाठी Serializable interface वापरतो.
+
+**********Step 1: Student.java
+import java.io.Serializable;
+
+public class Student implements Serializable {
+
+    int id;
+    String name;
+    double marks;
+
+    public Student(int id, String name, double marks) {
+        this.id = id;
+        this.name = name;
+        this.marks = marks;
+    }
+}
+
+
+------------------------------------------------------------------------------
+
+Q2) Why do we need Serialization in Java?
+
+Serialization is used to save an object's state permanently or transfer an object from one place to another.
+
+म्हणजे Java मध्ये तयार केलेला Object आपण फक्त program चालू असेपर्यंतच वापरू शकतो. Program बंद झाला तर तो Object memory मधून नष्ट होतो.
+
+पण आपल्याला त्याचा data नंतरही हवा असेल तर Serialization वापरतो.
+
+1. To Save Object Data in a File
+समजा आपण Student Object तयार केला.....आता Program बंद झाला तरी Student चा data आपल्याला पुन्हा वापरायचा आहे. 
+Student s1 = new Student(101, "Jay", 85.5);
+
+त्यासाठी Object File मध्ये Save करतो.
+
+2. To Transfer Data Over a Network
+समजा एका Computer वर Student Object आहे आणि तो दुसऱ्या Computer वर पाठवायचा आहे.
+
+Direct Java Object पाठवता येत नाही. त्याचे Byte Stream मध्ये Conversion करून पाठवता येते.`
+
+
+---------------------------------------------------------------------------
+
+3. Serializable interface
+The Serializable interface belongs to the java.io package.
+
+
+Important points:
+
+Serializable is a marker interface.
+
+It does not contain methods that the class must implement.
+
+It tells the JVM that objects of the class are eligible for default serialization.
+
+A class must implement Serializable (or inherit it from a serializable superclass) for ordinary Java object serialization.
+
+If an object contains a non-transient field referring to a non-serializable object, serialization can fail with NotSerializableException.
+
+
+The transient keyword tells Java to exclude that field from default serialization.
+म्हणजे एखादा variable Serialization करताना Save करायचा नसेल तर transient वापरतो.
+
+When deserializing, a transient instance field receives its default value unless it is explicitly restored through custom deserialization logic.
+
+
+-------------------------------------------------------------------------
+
+Q4) Copy Constructor
+
+
+
+A copy constructor is a constructor that creates a new object by copying the values of another object of the same class.
+
+
+Java does not provide a built-in copy constructor; we define it ourselves.
+
+The copy constructor accepts an object of the same class as its parameter.
+
+It creates a new object and copies the values of the existing object's fields.
+
+It does not require the Cloneable interface.
+
+It does not require exception handling.
+
+
+***************EXAMPLE :
+
+class Student {
+
+    int id;
+    String name;
+
+    // Normal Constructor
+    Student(int id, String name) {
+
+        this.id = id;
+        this.name = name;
+    }
+
+    // Copy Constructor
+    Student(Student s) {
+
+        this.id = s.id;
+        this.name = s.name;
+    }
+}
+
+*************
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Student s1 = new Student(101, "Jay");
+
+        Student s2 = new Student(s1);
+
+        System.out.println(s1.id);
+        System.out.println(s1.name);
+
+        System.out.println(s2.id);
+        System.out.println(s2.name);
+    }
+}
+
+
+****************Output
+101
+Jay
+101
+Jay
+-------------------------------------------------------------------------
+
+Q5) Q. Why do we use Copy Constructor?
+
+We use a Copy Constructor to create a new object with the same data as an existing object without creating it from scratch.
+
+Q6) Q. Are both objects the same?
+
+No, both objects are different, but they contain the same copied values.
+
+--------------------------------------------------------------------------
+
+Q6) What is Shallow Copy?
+
+Shallow Copy creates a new object but copies the references of nested objects. Therefore, both objects share the same nested objects. Changes to shared nested objects affect both objects.
+
+***********
+
+class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+}
+
+class Student {
+    int id;
+    Address address;          // Nested object reference
+
+    Student(int id, Address address) {
+        this.id = id;
+        this.address = address;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Address a1 = new Address("Pune");
+
+        Student s1 = new Student(101, a1);
+
+        // Shallow Copy
+        Student s2 = new Student(s1.id, s1.address);
+
+        s2.address.city = "Mumbai";
+
+        System.out.println(s1.address.city);
+        System.out.println(s2.address.city);
+    }
+}
+
+***************Output:
+Mumbai
+Mumbai
+
+------------------------------------------------------------------
+
+Q7) What is Deep Copy?
+
+Deep Copy creates a new object along with new copies of its nested objects. Therefore, both objects are completely independent, and changes in one object do not affect the other.
+
+********
+public class Main {
+    public static void main(String[] args) {
+
+        Address a1 = new Address("Pune");
+
+        Student s1 = new Student(101, a1);
+
+        // Deep Copy
+        Student s2 = new Student(
+            s1.id,
+            new Address(s1.address.city)
+        );
+
+        s2.address.city = "Mumbai";
+
+        System.out.println(s1.address.city);
+        System.out.println(s2.address.city);
+    }
+}
+
+***********Output:
+Pune
+Mumbai
